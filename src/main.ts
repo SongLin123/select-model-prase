@@ -50,15 +50,18 @@ export default class SelectModelPrase {
 
         let base = this.getBasefeatrue(familyCode)
 
-        this[familyCode + 'OptDisable'] = this.filterRelationShip(base, '-').map(i => i.featureCode)
+        this.filterRelationShip(base, '-').map(i => i.featureCode).forEach(i => {
+            !this[familyCode + 'OptDisable'].includes(i) && this[familyCode + 'OptDisable'].push(i)
+        })
+
         // 返回 选配 + 不可选
-        return [...this.filterRelationShip(base, 'O'), ...this.filterRelationShip(base, '-')]
+        return [...this.filterRelationShip(base, 'S'), ...this.filterRelationShip(base, 'O'), ...this.filterRelationShip(base, '-')]
     }
     private cleanDisable() {
         for (const key in this) {
 
             if (key.match(new RegExp('OptDisable'))) {
-                this[key as string] = [] as string[]
+                this[key as string].length = 0
             }
         }
     }
@@ -87,7 +90,13 @@ export default class SelectModelPrase {
         // pkg 选配字段还有特殊规则，S标配默认选中且不能取消选择
 
         let pkgStandard = this.filterRelationShip(this.getBasefeatrue('PKG'), 'S')
-        this['PKG' + 'OptDisable'] = this['PKG'] = pkgStandard.map(i => i.featureCode)
+        this['PKG'] = pkgStandard.map(i => i.featureCode)
+        pkgStandard.map(i => i.featureCode).forEach(i => {
+            
+            !this['PKG' + 'OptDisable'].includes(i) && this['PKG' + 'OptDisable'].push(i)
+            
+        })
+
 
         return cloneDeep(this.selectModel)
     }

@@ -17359,7 +17359,29 @@
                             right.forEach(function (r) {
                                 if (r.startsWith('PKG') && !_this.PKG.includes(r)) {
                                     _this.PKG.push(r);
-                                    _this.PKGOptDisable = [r];
+                                    // this.PKGOptDisable.push(r)
+                                }
+                                else {
+                                    if (r.startsWith('BAC') && !_this.BACOptDisable.includes(r)) {
+                                        _this.BAC = r;
+                                    }
+                                    if (r.startsWith('WW') && !_this.WWAOptDisable.includes(r)) {
+                                        _this.WWA = r;
+                                    }
+                                    if (r.startsWith('CRT') && !_this.CRTOptDisable.includes(r)) {
+                                        _this.CRT = r;
+                                    }
+                                    if (r.startsWith('ITR') && !_this.CRTOptDisable.includes(r)) {
+                                        _this.ITR = r;
+                                    }
+                                }
+                            });
+                        }
+                        else if (concat === '<=>') {
+                            right.forEach(function (r) {
+                                if (r.startsWith('PKG') && !_this.PKG.includes(r)) {
+                                    _this.PKG.push(r);
+                                    _this.PKGOptDisable.push(r);
                                 }
                                 else {
                                     if (r.startsWith('BAC') && !_this.BACOptDisable.includes(r)) {
@@ -17371,9 +17393,13 @@
                                     if (r.startsWith('CRT') && !_this.CRTOptDisable.includes(r)) {
                                         _this.CRTOptDisable.push(r);
                                     }
+                                    if (r.startsWith('ITR') && !_this.CRTOptDisable.includes(r)) {
+                                        _this.ITROptDisable.push(r);
+                                    }
                                 }
                             });
                         }
+                        else ;
                     }
                 });
                 if (lodash.isEqualWith(this[DisableKey], this[propertyKey], function (val, oth) {
@@ -17387,7 +17413,7 @@
                         return false;
                     }
                 })) {
-                    this[DisableKey] = [];
+                    this[DisableKey].length = 0;
                 }
                 return arg;
             }
@@ -17401,7 +17427,7 @@
         Object.defineProperty(target, propertyKey + 'OptDisable', {
             enumerable: true,
             get: function () {
-                return this[DisableKey] || [];
+                return this[DisableKey] || (this[DisableKey] = []);
             },
             set: function (arg) {
                 this[DisableKey] = arg;
@@ -17435,17 +17461,20 @@
         };
         // 获取相关特征组,过滤选配信息
         SelectModelPrase.prototype.getfeatrue = function (familyCode) {
+            var _this = this;
             if (!this.selectModel)
                 return [];
             var base = this.getBasefeatrue(familyCode);
-            this[familyCode + 'OptDisable'] = this.filterRelationShip(base, '-').map(function (i) { return i.featureCode; });
+            this.filterRelationShip(base, '-').map(function (i) { return i.featureCode; }).forEach(function (i) {
+                !_this[familyCode + 'OptDisable'].includes(i) && _this[familyCode + 'OptDisable'].push(i);
+            });
             // 返回 选配 + 不可选
-            return __spread(this.filterRelationShip(base, 'O'), this.filterRelationShip(base, '-'));
+            return __spread(this.filterRelationShip(base, 'S'), this.filterRelationShip(base, 'O'), this.filterRelationShip(base, '-'));
         };
         SelectModelPrase.prototype.cleanDisable = function () {
             for (var key in this) {
                 if (key.match(new RegExp('OptDisable'))) {
-                    this[key] = [];
+                    this[key].length = 0;
                 }
             }
         };
@@ -17471,7 +17500,10 @@
             });
             // pkg 选配字段还有特殊规则，S标配默认选中且不能取消选择
             var pkgStandard = this.filterRelationShip(this.getBasefeatrue('PKG'), 'S');
-            this['PKG' + 'OptDisable'] = this['PKG'] = pkgStandard.map(function (i) { return i.featureCode; });
+            this['PKG'] = pkgStandard.map(function (i) { return i.featureCode; });
+            pkgStandard.map(function (i) { return i.featureCode; }).forEach(function (i) {
+                !_this['PKG' + 'OptDisable'].includes(i) && _this['PKG' + 'OptDisable'].push(i);
+            });
             return lodash.cloneDeep(this.selectModel);
         };
         SelectModelPrase.prototype.cleanALL = function () {
@@ -20497,7 +20529,7 @@
     				featureType: "1",
     				price: "0.00",
     				discountPrice: "",
-    				relationShip: "O"
+    				relationShip: "S"
     			},
     			{
     				familyId: "1364280026090045511",
@@ -21563,21 +21595,17 @@
      * @LastEditors  : BillySong
      */
     var p = new SelectModelPrase(json);
-    console.log('model', p.getModels());
-    // p.setModel('1358388880135143426') //创始版6座
-    // p.setModel('1358388887659724801') //标准版
-    // p.setModel('1358388882576228353')//创始版4座
-    // p.setModel('1358388889974980609')//精英版
-    // p.setModel('1358388892260876290')//性能版
-    // p.setModel('1358388894425137153')//豪华版
-    // p.setModel('1358388876922306561')//旗舰版6座
+    // console.log('model',p.getModels())
+    p.setModel('1364280025708363777'); //标准版
     // p.setModel('')//旗舰版4座
     // p.PKG=[]
     // console.log('BAC',p.BAC)
     // console.log('CRT',p.CRT)
     // console.log('ITR', p.ITR)
-    console.log('Opt', p.ITR);
-    console.log('ITROptDisable', p.ITROptDisable);
+    // console.log('Opt', p.ITR)
+    // console.log('ITROptDisable', p.ITROptDisable)
+    // console.log('pkg',p.PKG)
+    // console.log('Opt',p.PKGOpt)
     console.log('OptDisable', p.PKGOptDisable);
     // p.setModel('1358388892260876290')
     // console.log('Opt', p.PKG)

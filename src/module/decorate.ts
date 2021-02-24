@@ -2,7 +2,7 @@
  * @LastEditors  : BillySong
  */
 import { splitExpr } from "./filterRule";
-import { isEqual ,isEqualWith} from "lodash";
+import { isEqual, isEqualWith } from "lodash";
 
 // 装饰器
 export function setable(target: any, propertyKey: string) {
@@ -12,14 +12,14 @@ export function setable(target: any, propertyKey: string) {
     let DisableKey = Symbol(propertyKey + 'OptDisable')
 
     Object.defineProperty(target, propertyKey, {
-        enumerable:true,
+        enumerable: true,
         get: function () {
             return this[key]
         },
         set: function (arg: string[] | string) {
             this[key] = arg
 
-            if(!arg) return
+            if (!arg) return
             this.effectRule
                 .map((r: string) => splitExpr(r, true))
                 .forEach((ruleItem: (string | string[])[]) => {
@@ -56,11 +56,43 @@ export function setable(target: any, propertyKey: string) {
                     }
                     // 左边的规则匹配了
                     if (meta) {
+
                         if (concat == '=>') {
+
                             right.forEach(r => {
+
                                 if (r.startsWith('PKG') && !this.PKG.includes(r)) {
+
                                     this.PKG.push(r)
-                                    this.PKGOptDisable = [r]
+                                    
+                                    // this.PKGOptDisable.push(r)
+                                }
+                                else {
+                                    if (r.startsWith('BAC') && !this.BACOptDisable.includes(r)) {
+
+                                        this.BAC = r
+                                    }
+                                    if (r.startsWith('WW') && !this.WWAOptDisable.includes(r)) {
+
+                                        this.WWA = r
+                                    }
+                                    if (r.startsWith('CRT') && !this.CRTOptDisable.includes(r)) {
+
+                                        this.CRT = r
+                                    }
+                                    if (r.startsWith('ITR') && !this.CRTOptDisable.includes(r)) {
+
+                                        this.ITR = r
+                                    }
+                                }
+                            })
+                        } else if (concat === '<=>') {
+                            right.forEach(r => {
+
+                                if (r.startsWith('PKG') && !this.PKG.includes(r)) {
+
+                                    this.PKG.push(r)
+                                    this.PKGOptDisable.push(r)
                                 }
                                 else {
                                     if (r.startsWith('BAC') && !this.BACOptDisable.includes(r)) {
@@ -75,10 +107,12 @@ export function setable(target: any, propertyKey: string) {
 
                                         this.CRTOptDisable.push(r)
                                     }
+                                    if (r.startsWith('ITR') && !this.CRTOptDisable.includes(r)) {
+
+                                        this.ITROptDisable.push(r)
+                                    }
                                 }
                             })
-                        } else if (concat === '<=>') {
-                            //TODO
                         } else if (concat === '<|>') {
                             //TODO
                         }
@@ -96,7 +130,7 @@ export function setable(target: any, propertyKey: string) {
                     }
                 }
             )) {
-                this[DisableKey] = []
+                this[DisableKey].length = 0
             }
             return arg
 
@@ -104,16 +138,17 @@ export function setable(target: any, propertyKey: string) {
     })
 
     Object.defineProperty(target, propertyKey + 'Opt', {
-        enumerable:true,
+        enumerable: true,
         get: function () {
             return this.getfeatrue(propertyKey)
         }
     })
 
     Object.defineProperty(target, propertyKey + 'OptDisable', {
-        enumerable:true,
+        enumerable: true,
         get: function () {
-            return this[DisableKey]||[]
+
+            return this[DisableKey] || (this[DisableKey] = [])
         },
         set: function (arg) {
             this[DisableKey] = arg
