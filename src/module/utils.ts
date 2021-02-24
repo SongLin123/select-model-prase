@@ -23,7 +23,7 @@ export function putInGroup(list: { [k: string]: string }[]) {
     ])
     for (const item of list) {
 
-        Array.from(groupMap.keys()).forEach(key => key.includes(item.faimlyCode)
+        Array.from(groupMap.keys()).forEach(key => key.includes(item.familyCode)
             &&
             groupMap.get(key)!.push(item))
     }

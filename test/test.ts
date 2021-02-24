@@ -6,7 +6,7 @@
 import SelectModelPrase from "../src/main";
 import json from '../test.json';
 let p = new SelectModelPrase(json)
-// console.log('model',p.getModels())
+console.log('model',p.getModels())
 // p.setModel('1358388880135143426') //创始版6座
 // p.setModel('1358388887659724801') //标准版
 // p.setModel('1358388882576228353')//创始版4座
@@ -15,8 +15,8 @@ let p = new SelectModelPrase(json)
 // p.setModel('1358388894425137153')//豪华版
 // p.setModel('1358388876922306561')//旗舰版6座
 
-p.setModel('')//旗舰版4座
-p.PKG=[]
+// p.setModel('')//旗舰版4座
+// p.PKG=[]
 // console.log('BAC',p.BAC)
 // console.log('CRT',p.CRT)
 // console.log('ITR', p.ITR)

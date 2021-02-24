@@ -71,7 +71,7 @@
             [['PKG', 'PKG1', 'PKG2', 'PKG3', 'PKG4'], []],
         ]);
         var _loop_1 = function (item) {
-            Array.from(groupMap.keys()).forEach(function (key) { return key.includes(item.faimlyCode)
+            Array.from(groupMap.keys()).forEach(function (key) { return key.includes(item.familyCode)
                 &&
                     groupMap.get(key).push(item); });
         };
@@ -130,7 +130,7 @@
         return addSymbol ? __spread(tem, [tar[2]]) : tem;
     }
     function filterRule (model) {
-        var rules = model.constraintRuleList, ves = model.veFaimlyList;
+        var rules = model.constraintRuleList, ves = model.veFamilyList;
         var tar = [];
         for (var i = 0; i < rules.length; i++) {
             var rule = rules[i].constraintRuleCode;
@@ -17416,7 +17416,7 @@
             this.models = [];
             this.effectRule = []; // 生效的约束规则
             this.models = json.map(function (m) {
-                _this.featrueG.set(m, putInGroup(m.veFaimlyList));
+                _this.featrueG.set(m, putInGroup(m.veFamilyList));
                 return m;
             });
         }
@@ -17424,9 +17424,9 @@
             return base.filter(function (i) { return i.relationShip === relationShipSym; });
         };
         // 获取相关特征组
-        SelectModelPrase.prototype.getBasefeatrue = function (faimlyCode) {
-            if (faimlyCode) {
-                var k = __spread(this.featrueG.get(this.selectModel).keys()).find(function (i) { return i.includes(faimlyCode); });
+        SelectModelPrase.prototype.getBasefeatrue = function (familyCode) {
+            if (familyCode) {
+                var k = __spread(this.featrueG.get(this.selectModel).keys()).find(function (i) { return i.includes(familyCode); });
                 return this.featrueG.get(this.selectModel).get(k) || [];
             }
             else {
@@ -17434,11 +17434,11 @@
             }
         };
         // 获取相关特征组,过滤选配信息
-        SelectModelPrase.prototype.getfeatrue = function (faimlyCode) {
+        SelectModelPrase.prototype.getfeatrue = function (familyCode) {
             if (!this.selectModel)
                 return [];
-            var base = this.getBasefeatrue(faimlyCode);
-            this[faimlyCode + 'OptDisable'] = this.filterRelationShip(base, '-').map(function (i) { return i.featureCode; });
+            var base = this.getBasefeatrue(familyCode);
+            this[familyCode + 'OptDisable'] = this.filterRelationShip(base, '-').map(function (i) { return i.featureCode; });
             // 返回 选配 + 不可选
             return __spread(this.filterRelationShip(base, 'O'), this.filterRelationShip(base, '-'));
         };
@@ -17465,9 +17465,9 @@
             this.effectRule = filterRule(this.selectModel);
             // 后加的狗屎规则不知道对哦i不
             // 选配字段
-            ['BAC', 'ITR', 'WWA', 'CRT'].forEach(function (faimlyCode) {
-                var base = _this.getBasefeatrue(faimlyCode), defaultSelect = _this.filterRelationShip(base, 'S');
-                _this[faimlyCode] = lodash.isEmpty(defaultSelect) ? undefined : defaultSelect[0].featureCode;
+            ['BAC', 'ITR', 'WWA', 'CRT'].forEach(function (familyCode) {
+                var base = _this.getBasefeatrue(familyCode), defaultSelect = _this.filterRelationShip(base, 'S');
+                _this[familyCode] = lodash.isEmpty(defaultSelect) ? undefined : defaultSelect[0].featureCode;
             });
             // pkg 选配字段还有特殊规则，S标配默认选中且不能取消选择
             var pkgStandard = this.filterRelationShip(this.getBasefeatrue('PKG'), 'S');
@@ -17502,7 +17502,479 @@
 
     var json = [
     	{
-    		carTypeId: "1358388880135143426",
+    		carTypeId: "1364280011665833985",
+    		carTypeCode: "VX1_0003_01",
+    		carTypeCn: "旗舰版6座",
+    		carTypeEn: null,
+    		orderNo: null,
+    		price: "800000.00",
+    		discountPrice: "0.00",
+    		constraintRuleList: [
+    			{
+    				constraintRuleCode: "(STLA&LSS0)=>(S7PL0&S7PR0)",
+    				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：无)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
+    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: NOT AVAILABLE)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: NOT AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "PKG101<=>(ITFB&LSP2&LSS2&MFS2&MSS1&VFS1&VSS1)",
+    				constraintRuleName: "舒适套装_01<=>(内饰顶衬:  麂皮，黑色&副驾腿托：电动&二排座椅腿托：电动&一排座椅按摩：多种按摩模式，可OTA升级&二排座椅按摩：有&一排座椅通风：有&二排座椅通风：有)",
+    				constraintRuleNameEn: "Comfort_01<=>(INTERIOR ROOF：SUEDE, BLACK&LEG SUPPORT-PASS: POWER&LEG SUPPORT - 2ND ROW SEAT: POWER&MASSAGE - 1ST ROW SEAT: AVAILABLE, MULTI-MODE, OTA UPGRADE&MASSAGE - 2ND ROW SEAT: AVAILABLE&VENTILATION - 1ST ROW SEAT: AVAILABLE&VENTILATION - 2ND ROW SEAT: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "PKG201<=>(AQS1&DBR1&DIDC&EAS1&HMS1&IFS1&IPL1&PLD1&SASC)",
+    				constraintRuleName: "沉浸套装_01<=>(生化医疗级HEPA高效空气滤芯：有&主驾生物识别：有&副驾显示屏：双屏，触摸&场景音效：有&个人健康管理平台：有&智能香氛发生器：有&仪表两端发光面板：有&前门发光面板:有&扬声器：加强17扬声器)",
+    				constraintRuleNameEn: "Immersion_01<=>(EQUIPMENT - HEPA FILTER: AVAILABLE&DRIVER SIDE BIOMETRIC RECOGNITION: AVAILABLE&DISPLAY INSTRUMENT-PASSAGE SIDE: DUAL, TOUCH SCREEN&EXTERNAL AMPLIFIER-SCENE SOUND: AVAILABLE&HEALTH MANAGEMENT SYSTEM: AVAILABLE&EQUIPMENT - INTELLIGENT FRAGRANCE SYSTEMS: AVAILABLE&ILLUMINATION PANEL - IP ENDS: AVAILABLE&PANEL LAMP - FRT DOOR : AVAILABLE&SPEAKER SYSTEM: ENHANCED AUDIO, 17 SPEAKERS)"
+    			},
+    			{
+    				constraintRuleCode: "PKG301<=>(DLP1&FHLB&FRR1)",
+    				constraintRuleName: "科技套装_01<=>(智能灯光控制：有&前照灯：数字光处理&车外人脸识别进入：有)",
+    				constraintRuleNameEn: "Tech_01<=>(DLP CONTROL: AVAILABLE&HEADLAMPS: DLP&FACE RECOGNITION ENTRY, OUTER: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "PKG401<=>(HDM1&HWA1&ICC1&LLC1&PPF1&TJP1)",
+    				constraintRuleName: "自动驾驶高阶功能套装_01<=>(高精地图：有&高速辅助：有&智能巡航：有&拨杆换道：有&遥控泊车：泊入泊出&交通拥堵代驾（TJP）：有)",
+    				constraintRuleNameEn: "HiPhi Pilot_01<=>(HD MAP: AVAILABLE&HIGHWAY ASSIST: AVAILABLE&INTELLIGENT CRUISE CONTROL：AVAILABLE&SHIFT LEVER LANE CHANGE: AVAILABLE&PILOTED PARKING: RPA&TRAFFIC JAM PILOT: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "PKG301=>PKG101",
+    				constraintRuleName: "科技套装_01=>舒适套装_01",
+    				constraintRuleNameEn: "Tech_01=>Comfort_01"
+    			},
+    			{
+    				constraintRuleCode: "ITRE=>ITMC",
+    				constraintRuleName: "内饰颜色：白+紫色=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "ITRD=>ITMC",
+    				constraintRuleName: "内饰颜色：座椅/门板/IP/中控黑色，橙色缝线=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "ITRF=>ITMC",
+    				constraintRuleName: "内饰颜色：浅蓝=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "STMA<=>ITMA",
+    				constraintRuleName: "座椅风格：PU/PVC<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
+    				constraintRuleNameEn: "SEAT TRIM: PU/PVC<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
+    			},
+    			{
+    				constraintRuleCode: "PKG201=>PKG101",
+    				constraintRuleName: "沉浸套装_01=>舒适套装_01",
+    				constraintRuleNameEn: "Immersion_01=>Comfort_01"
+    			},
+    			{
+    				constraintRuleCode: "STMC<=>ITMB",
+    				constraintRuleName: "座椅风格：软真皮座椅<=>内饰材质：门板/IP/中控 PU+PVC，座椅软皮革",
+    				constraintRuleNameEn: "SEAT TRIM: NAPPA LEATHER<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, NAPPA LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "(WWTB|WWTC)<=>WWAD",
+    				constraintRuleName: "(车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<=>车轮：R22 寸，类型2",
+    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<=>WHEEL ALLOY: TYPE 2-R22"
+    			},
+    			{
+    				constraintRuleCode: "(WWAE|WWAG)<=>MKT001",
+    				constraintRuleName: "(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)<=>车轮悬浮立标",
+    				constraintRuleNameEn: "(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)<=>floating wheel cap"
+    			},
+    			{
+    				constraintRuleCode: "(ITRA|ITRB)<=>ITMA",
+    				constraintRuleName: "(内饰颜色：座椅/门板/IP/中控白色|内饰颜色：座椅/门板/IP/中控黑色)<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER|INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER)<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
+    			},
+    			{
+    				constraintRuleCode: "WWTA<=>WWAC",
+    				constraintRuleName: "车轮装饰盖：R20 寸，类型1<=>车轮：R20 寸，类型1",
+    				constraintRuleNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20<=>WHEEL ALLOY: TYPE 1-R20"
+    			},
+    			{
+    				constraintRuleCode: "CFF3=>(ITRD|ITRF)",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编=>(内饰颜色：座椅/门板/IP/中控黑色，橙色缝线|内饰颜色：浅蓝)",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL=>(INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING|INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)"
+    			},
+    			{
+    				constraintRuleCode: "CFF4=>ITRE",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色=>内饰颜色：白+紫色",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY=>(INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX)"
+    			},
+    			{
+    				constraintRuleCode: "HMS1<=>DBR1",
+    				constraintRuleName: "个人健康管理平台：有<=>主驾生物识别：有",
+    				constraintRuleNameEn: "HEALTH MANAGEMENT SYSTEM: AVAILABLE<=>DRIVER SIDE BIOMETRIC RECOGNITION: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "FHLB<=>DLP1",
+    				constraintRuleName: "前照灯：数字光处理<=>智能灯光控制：有",
+    				constraintRuleNameEn: "HEADLAMPS: DLP<=>DLP CONTROL: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "HLS1<|>DLP1",
+    				constraintRuleName: "远近光自动切换：有<|>智能灯光控制：有",
+    				constraintRuleNameEn: "HEADLAMP AUTO SWITCH: AVAILABLE<|>DLP CONTROL: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "ITRC<=>ITMB",
+    				constraintRuleName: "内饰颜色：座椅橙色，门板/IP/中控黑色<=>内饰材质：门板/IP/中控 PU+PVC，座椅软皮革",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER)<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, NAPPA LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "CFF3<=>CRF3",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编<=>后排地垫：高级羊毛精编",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL"
+    			},
+    			{
+    				constraintRuleCode: "CFF4<=>CRF4",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色<=>后排地垫：高级羊毛精编，灰色",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL, GREY"
+    			},
+    			{
+    				constraintRuleCode: "CFF1<=>CRF1",
+    				constraintRuleName: "前排主副驾地垫：有<=>后排地垫：有",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: AVAILABLE<=>COVERING REAR FLOOR MATS, AUX: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "(STMD|STME)<=>ITMC",
+    				constraintRuleName: "(座椅风格：半苯胺真皮座椅|座椅风格：半苯胺真皮座椅带创始版标识)<=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
+    				constraintRuleNameEn: "(SEAT TRIM: SEMI ANILINE LEATHER|SEAT TRIM: SEMI ANILINE LEATHER, W FOUNDER EDITITON PATTERN)<=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "WWAC<=>WWSF",
+    				constraintRuleName: "车轮：R20 寸，类型1<=>车胎：R20 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 1-R20<=>WHEEL SIZE: 20 INCH"
+    			},
+    			{
+    				constraintRuleCode: "WWAD=>WWSG",
+    				constraintRuleName: "车轮：R22 寸，类型2=>车胎：R22 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 2-R22=>WHEEL SIZE: 22 INCH"
+    			},
+    			{
+    				constraintRuleCode: "WWAE=>WWSG",
+    				constraintRuleName: "车轮：R22 寸，类型3=>车胎：R22 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22=>WHEEL SIZE: 22 INCH"
+    			},
+    			{
+    				constraintRuleCode: "WWAG=>WWSG",
+    				constraintRuleName: "车轮：R22 寸，类型3，暗色=>车胎：R22 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK=>WHEEL SIZE: 22 INCH"
+    			},
+    			{
+    				constraintRuleCode: "EDSB<=>ADMB",
+    				constraintRuleName: "电驱动系统：后驱，200kw<=>驱动模式：后驱",
+    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: RR, PMSM, 200kw<=>DRIVEN MODE: RWD"
+    			},
+    			{
+    				constraintRuleCode: "EDSC<=>ADME",
+    				constraintRuleName: "电驱动系统：前后驱，200kw<=>驱动模式：全时四驱",
+    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: FRT, RR, PMSM, 200kw<=>DRIVEN MODE: 4WD 全时四驱"
+    			},
+    			{
+    				constraintRuleCode: "LSP0=>P4SL0",
+    				constraintRuleName: "副驾腿托：无=>副驾座椅电动腿托调节开关：无",
+    				constraintRuleNameEn: "LEG SUPPORT-PASS: NOT AVAILABLE=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: NOT AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "LSP2=>P4SL1",
+    				constraintRuleName: "副驾腿托：电动=>副驾座椅电动腿托调节开关：有",
+    				constraintRuleNameEn: "LEG SUPPORT-PASS: POWER=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "MSS0=>(S4ML0&S4MR0)",
+    				constraintRuleName: "二排座椅按摩：无=>(二排座椅按摩 - 左座椅：无&二排座椅按摩 - 右座椅：无)",
+    				constraintRuleNameEn: "MASSAGE - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST MASSAGE - LH: NOT AVAILABLE&2ND ROW ST MASSAGE - RH: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "MSS1=>(S4ML1&S4MR1)",
+    				constraintRuleName: "二排座椅按摩：有=>(二排座椅按摩 - 左座椅：有&二排座椅按摩 - 右座椅：有)",
+    				constraintRuleNameEn: "MASSAGE - 2ND ROW SEAT: AVAILABLE=>(2ND ROW ST MASSAGE - LH: AVAILABLE&2ND ROW ST MASSAGE - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "VSS0=>(S4VL0&S4VR0)",
+    				constraintRuleName: "二排座椅通风：无=>(二排座椅通风 - 左座椅：无&二排座椅通风 - 右座椅：无)",
+    				constraintRuleNameEn: "VENTILATION - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST VENTILATION - LH: NOT AVAILABLE&2ND ROW ST VENTILATION - RH: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "VSS1=>(S4VL1&S4VR1)",
+    				constraintRuleName: "二排座椅通风：有=>(二排座椅通风 - 左座椅：有&二排座椅通风 - 右座椅：有)",
+    				constraintRuleNameEn: "VENTILATION - 2ND ROW SEAT: AVAILABLE=>(2ND ROW ST VENTILATION - LH: AVAILABLE&2ND ROW ST VENTILATION - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "VFS0=>(P4SV0&D4SV0)",
+    				constraintRuleName: "一排座椅通风：无=>(副驾座椅通风：无&主驾座椅通风：无)",
+    				constraintRuleNameEn: "VENTILATION - 1ST ROW SEAT: NOT AVAILABLE=>(PASS ST VENTILATION: NOT AVAILABLE&DRVR ST VENTILATION: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "VFS1=>(P4SV1&D4SV1)",
+    				constraintRuleName: "一排座椅通风：有=>(副驾座椅通风：有&主驾座椅通风：有)",
+    				constraintRuleNameEn: "VENTILATION - 1ST ROW SEAT: AVAILABLE=>(PASS ST VENTILATION: AVAILABLE&DRVR ST VENTILATION: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "MFS0=>(D4SM0&P4SM0)",
+    				constraintRuleName: "一排座椅按摩：无=>(主驾座椅按摩：无&副驾座椅按摩：无)",
+    				constraintRuleNameEn: "MASSAGE - 1ST ROW SEAT: NOT AVAILABLE=>(DRVR ST MASSAGE: NOT AVAILABLE&PASS ST MASSAGE: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "LSS0=>(S4PL0&S4PR0)",
+    				constraintRuleName: "二排座椅腿托：无=>(二排座椅腿托 - 左座椅：无&二排座椅腿托 - 右座椅：无)",
+    				constraintRuleNameEn: "LEG SUPPORT - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST LEG SUPPORT - LH: NOT AVAILABLE&2ND ROW ST LEG SUPPORT - RH: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "MFS2=>(D4SM1&P4SM1)",
+    				constraintRuleName: "一排座椅按摩：多种按摩模式，可OTA升级=>(主驾座椅按摩：有&副驾座椅按摩：有)",
+    				constraintRuleNameEn: "MASSAGE - 1ST ROW SEAT: AVAILABLE, MULTI-MODE, OTA UPGRADE=>(DRVR ST MASSAGE: AVAILABLE&PASS ST MASSAGE: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "LSS2=>(S4PL2&S4PR2)",
+    				constraintRuleName: "二排座椅腿托：电动=>(二排座椅腿托 - 左座椅：电动&二排座椅腿托 - 右座椅：电动)",
+    				constraintRuleNameEn: "LEG SUPPORT - 2ND ROW SEAT: POWER=>(2ND ROW ST LEG SUPPORT - LH: POWER&2ND ROW ST LEG SUPPORT - RH: POWER)"
+    			},
+    			{
+    				constraintRuleCode: "(STLC&LSS2)=>(S7PL0&S7PR0)",
+    				constraintRuleName: "(座位布置：2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
+    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: NOT AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "(STLA&LSS2)=>(S7PL1&S7PR1)",
+    				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：有&二排座椅电动腿托开关 - 右座椅：有)",
+    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "(WWTA|WWTB|WWTC)<|>(WWAE|WWAG)",
+    				constraintRuleName: "(车轮装饰盖：R20 寸，类型1|车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<|>(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)",
+    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20|WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<|>(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)"
+    			}
+    		],
+    		veFamilyList: [
+    			{
+    				familyId: "1364280014073364547",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280014769618945",
+    				featureCode: "BACM",
+    				featureName: "玉石灰",
+    				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280014073364549",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280014803173377",
+    				featureCode: "BACL",
+    				featureName: "珍珠白",
+    				featureNameEn: "EW0A-WHITE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280014073364551",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280014891253761",
+    				featureCode: "BACJ",
+    				featureName: "水晶紫",
+    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280014073364553",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280014920613889",
+    				featureCode: "BACG",
+    				featureName: "丹岩橙",
+    				featureNameEn: "EJ0A-ORANGE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280014073364555",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280014945779714",
+    				featureCode: "BACD",
+    				featureName: "墨晶灰",
+    				featureNameEn: "EG1B-DARK GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280014073364557",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280014970945538",
+    				featureCode: "BACA",
+    				featureName: "钻石蓝",
+    				featureNameEn: "EB1A-BLUE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280014094336094",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280014991917058",
+    				featureCode: "ITRE",
+    				featureName: "星环灰半苯胺内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280014094336096",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280015017082881",
+    				featureCode: "ITRD",
+    				featureName: "星月黑半苯胺内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280014098530322",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280015054831618",
+    				featureCode: "WWAG",
+    				featureName: "22英寸7辐枪灰轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280014098530322",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280015096774657",
+    				featureCode: "WWAE",
+    				featureName: "22英寸7辐亮银轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280014098530322",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280015117746177",
+    				featureCode: "WWAD",
+    				featureName: "车轮：R22 寸，类型2",
+    				featureNameEn: "WHEEL ALLOY: TYPE 2-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "-"
+    			},
+    			{
+    				familyId: "1364280014098530322",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280015142912002",
+    				featureCode: "WWAC",
+    				featureName: "车轮：R20 寸，类型1",
+    				featureNameEn: "WHEEL ALLOY: TYPE 1-R20",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "-"
+    			},
+    			{
+    				familyId: "1364280014098530342",
+    				familyCode: "PKG4",
+    				familyName: "选装包4_自动驾驶高阶功能套装",
+    				familyNameEn: "Pkg4_HiPhi Pilot",
+    				featureId: "1364280016254402561",
+    				featureCode: "PKG401",
+    				featureName: "HiPhi Pilot全配包",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280014098530344",
+    				familyCode: "PKG3",
+    				familyName: "选装包3_科技套装",
+    				familyNameEn: "Pkg3_Tech",
+    				featureId: "1364280016283762690",
+    				featureCode: "PKG301",
+    				featureName: "科技套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280014098530346",
+    				familyCode: "PKG2",
+    				familyName: "选装包2_沉浸套装",
+    				familyNameEn: "Pkg2_Immersion",
+    				featureId: "1364280016313122818",
+    				featureCode: "PKG201",
+    				featureName: "沉浸套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280014098530348",
+    				familyCode: "PKG1",
+    				familyName: "选装包1_舒适套装",
+    				familyNameEn: "Pkg1_Comfort",
+    				featureId: "1364280016338288642",
+    				featureCode: "PKG101",
+    				featureName: "座享套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			}
+    		]
+    	},
+    	{
+    		carTypeId: "1364280016787079170",
     		carTypeCode: "VX1_0004_01",
     		carTypeCn: "创始版6座",
     		carTypeEn: null,
@@ -17511,9 +17983,14 @@
     		discountPrice: null,
     		constraintRuleList: [
     			{
-    				constraintRuleCode: "CFF3<=>CRF3",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编<=>后排地垫：高级羊毛精编",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL"
+    				constraintRuleCode: "PKG201=>PKG101",
+    				constraintRuleName: "沉浸套装_01=>舒适套装_01",
+    				constraintRuleNameEn: "Immersion_01=>Comfort_01"
+    			},
+    			{
+    				constraintRuleCode: "EDSC<=>ADME",
+    				constraintRuleName: "电驱动系统：前后驱，200kw<=>驱动模式：全时四驱",
+    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: FRT, RR, PMSM, 200kw<=>DRIVEN MODE: 4WD 全时四驱"
     			},
     			{
     				constraintRuleCode: "(STLA&LSS0)=>(S7PL0&S7PR0)",
@@ -17524,6 +18001,16 @@
     				constraintRuleCode: "PKG101<=>(ITFB&LSP2&LSS2&MFS2&MSS1&VFS1&VSS1)",
     				constraintRuleName: "舒适套装_01<=>(内饰顶衬:  麂皮，黑色&副驾腿托：电动&二排座椅腿托：电动&一排座椅按摩：多种按摩模式，可OTA升级&二排座椅按摩：有&一排座椅通风：有&二排座椅通风：有)",
     				constraintRuleNameEn: "Comfort_01<=>(INTERIOR ROOF：SUEDE, BLACK&LEG SUPPORT-PASS: POWER&LEG SUPPORT - 2ND ROW SEAT: POWER&MASSAGE - 1ST ROW SEAT: AVAILABLE, MULTI-MODE, OTA UPGRADE&MASSAGE - 2ND ROW SEAT: AVAILABLE&VENTILATION - 1ST ROW SEAT: AVAILABLE&VENTILATION - 2ND ROW SEAT: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "LSP0=>P4SL0",
+    				constraintRuleName: "副驾腿托：无=>副驾座椅电动腿托调节开关：无",
+    				constraintRuleNameEn: "LEG SUPPORT-PASS: NOT AVAILABLE=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: NOT AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "LSP2=>P4SL1",
+    				constraintRuleName: "副驾腿托：电动=>副驾座椅电动腿托调节开关：有",
+    				constraintRuleNameEn: "LEG SUPPORT-PASS: POWER=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: AVAILABLE"
     			},
     			{
     				constraintRuleCode: "PKG201<=>(AQS1&DBR1&DIDC&EAS1&HMS1&IFS1&IPL1&PLD1&SASC)",
@@ -17564,11 +18051,6 @@
     				constraintRuleCode: "STMA<=>ITMA",
     				constraintRuleName: "座椅风格：PU/PVC<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
     				constraintRuleNameEn: "SEAT TRIM: PU/PVC<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
-    			},
-    			{
-    				constraintRuleCode: "PKG201=>PKG101",
-    				constraintRuleName: "沉浸套装_01=>舒适套装_01",
-    				constraintRuleNameEn: "Immersion_01=>Comfort_01"
     			},
     			{
     				constraintRuleCode: "STMC<=>ITMB",
@@ -17626,6 +18108,11 @@
     				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER)<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, NAPPA LEATHER SEAT"
     			},
     			{
+    				constraintRuleCode: "CFF3<=>CRF3",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编<=>后排地垫：高级羊毛精编",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL"
+    			},
+    			{
     				constraintRuleCode: "CFF4<=>CRF4",
     				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色<=>后排地垫：高级羊毛精编，灰色",
     				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL, GREY"
@@ -17664,21 +18151,6 @@
     				constraintRuleCode: "EDSB<=>ADMB",
     				constraintRuleName: "电驱动系统：后驱，200kw<=>驱动模式：后驱",
     				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: RR, PMSM, 200kw<=>DRIVEN MODE: RWD"
-    			},
-    			{
-    				constraintRuleCode: "EDSC<=>ADME",
-    				constraintRuleName: "电驱动系统：前后驱，200kw<=>驱动模式：全时四驱",
-    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: FRT, RR, PMSM, 200kw<=>DRIVEN MODE: 4WD 全时四驱"
-    			},
-    			{
-    				constraintRuleCode: "LSP0=>P4SL0",
-    				constraintRuleName: "副驾腿托：无=>副驾座椅电动腿托调节开关：无",
-    				constraintRuleNameEn: "LEG SUPPORT-PASS: NOT AVAILABLE=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: NOT AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "LSP2=>P4SL1",
-    				constraintRuleName: "副驾腿托：电动=>副驾座椅电动腿托调节开关：有",
-    				constraintRuleNameEn: "LEG SUPPORT-PASS: POWER=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: AVAILABLE"
     			},
     			{
     				constraintRuleCode: "MSS0=>(S4ML0&S4MR0)",
@@ -17739,285 +18211,790 @@
     				constraintRuleCode: "(STLA&LSS2)=>(S7PL1&S7PR1)",
     				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：有&二排座椅电动腿托开关 - 右座椅：有)",
     				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "(WWTA|WWTB|WWTC)<|>(WWAE|WWAG)",
+    				constraintRuleName: "(车轮装饰盖：R20 寸，类型1|车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<|>(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)",
+    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20|WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<|>(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)"
     			}
     		],
-    		veFaimlyList: [
+    		veFamilyList: [
     			{
-    				faimlyId: "1358388880353247239",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388880357441537",
-    				featureCode: "BACL",
-    				featureName: "珍珠白",
-    				featureNameEn: "EW0A-WHITE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388880361635842",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388880365830146",
-    				featureCode: "BACM",
-    				featureName: "玉石灰",
-    				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388880512630785",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388880516825090",
-    				featureCode: "ITRD",
-    				featureName: "星月黑半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388880521019393",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388880525213698",
-    				featureCode: "ITRA",
-    				featureName: "银河白内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388880529408001",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388880533602306",
-    				featureCode: "ITRB",
-    				featureName: "深空黑内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388880537796609",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388880541990913",
-    				featureCode: "ITRC",
-    				featureName: "星曦橙内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388880567156739",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388880571351042",
-    				featureCode: "BACC",
-    				featureName: "钛金灰",
-    				featureNameEn: "EG1A-MATT GREY METALLIC",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388880575545346",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388880579739650",
-    				featureCode: "BACG",
-    				featureName: "丹岩橙",
-    				featureNameEn: "EJ0A-ORANGE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388880609099778",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390109418536961",
-    				featureCode: "WWAG",
-    				featureName: "22英寸7辐枪灰轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388880609099780",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390109338845186",
-    				featureCode: "WWAE",
-    				featureName: "22英寸7辐亮银轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388881095639042",
-    				faimlyCode: "PKG1",
-    				faimlyName: "选装包1_舒适套装",
-    				faimlyNameEn: "Pkg1_Comfort",
-    				featureId: "1358388882492342274",
-    				featureCode: "PKG101",
-    				featureName: "座享套装",
-    				featureNameEn: "Comfort_01",
-    				relationShip: "S",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388881095639044",
-    				faimlyCode: "PKG2",
-    				faimlyName: "选装包2_沉浸套装",
-    				faimlyNameEn: "Pkg2_Immersion",
-    				featureId: "1358388882509119489",
-    				featureCode: "PKG201",
-    				featureName: "沉浸套装",
-    				featureNameEn: "Immersion_01",
-    				relationShip: "S",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388881099833346",
-    				faimlyCode: "PKG3",
-    				faimlyName: "选装包3_科技套装",
-    				faimlyNameEn: "Pkg3_Tech",
-    				featureId: "1358388882530091010",
-    				featureCode: "PKG301",
-    				featureName: "科技套装",
-    				featureNameEn: "Tech_01",
-    				relationShip: "S",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388881099833348",
-    				faimlyCode: "PKG4",
-    				faimlyName: "选装包4_自动驾驶高阶功能套装",
-    				faimlyNameEn: "Pkg4_HiPhi Pilot",
-    				featureId: "1358388882546868226",
-    				featureCode: "PKG401",
-    				featureName: "HiPhi Pilot全配包",
-    				featureNameEn: "HiPhi Pilot_01",
-    				relationShip: "S",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388881108221954",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388881112416257",
-    				featureCode: "BACA",
-    				featureName: "钻石蓝",
-    				featureNameEn: "EB1A-BLUE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388881116610562",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388881120804866",
-    				featureCode: "BACD",
-    				featureName: "墨晶灰",
-    				featureNameEn: "EG1B-DARK GREY METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388881124999170",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388881129193473",
-    				featureCode: "BACJ",
-    				featureName: "水晶紫",
-    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388881322131459",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388881326325762",
+    				familyId: "1364280017185538154",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280017613357057",
     				featureCode: "ITRE",
     				featureName: "星环灰半苯胺内饰",
     				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
-    				relationShip: "O",
+    				featureType: "4",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388881330520065",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388881334714370",
-    				featureCode: "ITRF",
-    				featureName: "星海蓝半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX",
-    				relationShip: "-",
+    				familyId: "1364280017206509663",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280017642717185",
+    				featureCode: "WWAE",
+    				featureName: "22英寸7辐亮银轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280017206509663",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280017663688705",
+    				featureCode: "WWAG",
+    				featureName: "22英寸7辐枪灰轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280017210703873",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280017797906434",
+    				featureCode: "BACG",
+    				featureName: "丹岩橙",
+    				featureNameEn: "EJ0A-ORANGE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280017210703899",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280017818877954",
+    				featureCode: "ITRD",
+    				featureName: "星月黑半苯胺内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280017206509663",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280017684660226",
+    				featureCode: "WWAD",
+    				featureName: "车轮：R22 寸，类型2",
+    				featureNameEn: "WHEEL ALLOY: TYPE 2-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "-"
+    			},
+    			{
+    				familyId: "1364280017206509663",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280017705631745",
+    				featureCode: "WWAC",
+    				featureName: "车轮：R20 寸，类型1",
+    				featureNameEn: "WHEEL ALLOY: TYPE 1-R20",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "-"
+    			},
+    			{
+    				familyId: "1364280017214898205",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280017839849473",
+    				featureCode: "BACM",
+    				featureName: "玉石灰",
+    				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280017214898207",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280017860820993",
+    				featureCode: "BACL",
+    				featureName: "珍珠白",
+    				featureNameEn: "EW0A-WHITE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280017214898209",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280017877598209",
+    				featureCode: "BACJ",
+    				featureName: "水晶紫",
+    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280017214898211",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280017898569729",
+    				featureCode: "BACD",
+    				featureName: "墨晶灰",
+    				featureNameEn: "EG1B-DARK GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280017214898213",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280017919541249",
+    				featureCode: "BACA",
+    				featureName: "钻石蓝",
+    				featureNameEn: "EB1A-BLUE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280017214898219",
+    				familyCode: "PKG4",
+    				familyName: "选装包4_自动驾驶高阶功能套装",
+    				familyNameEn: "Pkg4_HiPhi Pilot",
+    				featureId: "1364280018586435586",
+    				featureCode: "PKG401",
+    				featureName: "HiPhi Pilot全配包",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280017214898221",
+    				familyCode: "PKG3",
+    				familyName: "选装包3_科技套装",
+    				familyNameEn: "Pkg3_Tech",
+    				featureId: "1364280018615795713",
+    				featureCode: "PKG301",
+    				featureName: "科技套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280017214898223",
+    				familyCode: "PKG2",
+    				familyName: "选装包2_沉浸套装",
+    				familyNameEn: "Pkg2_Immersion",
+    				featureId: "1364280018640961538",
+    				featureCode: "PKG201",
+    				featureName: "沉浸套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280017214898225",
+    				familyCode: "PKG1",
+    				familyName: "选装包1_舒适套装",
+    				familyNameEn: "Pkg1_Comfort",
+    				featureId: "1364280018670321666",
+    				featureCode: "PKG101",
+    				featureName: "座享套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
     			}
     		]
     	},
     	{
-    		carTypeId: "1358388882576228353",
+    		carTypeId: "1364280018976505857",
     		carTypeCode: "VX1_0005_01",
     		carTypeCn: "创始版4座",
     		carTypeEn: null,
     		orderNo: null,
-    		price: null,
-    		discountPrice: null,
+    		price: "950000.00",
+    		discountPrice: "0.00",
+    		constraintRuleList: [
+    			{
+    				constraintRuleCode: "STMA<=>ITMA",
+    				constraintRuleName: "座椅风格：PU/PVC<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
+    				constraintRuleNameEn: "SEAT TRIM: PU/PVC<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
+    			},
+    			{
+    				constraintRuleCode: "(STLA&LSS0)=>(S7PL0&S7PR0)",
+    				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：无)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
+    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: NOT AVAILABLE)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: NOT AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "PKG101<=>(ITFB&LSP2&LSS2&MFS2&MSS1&VFS1&VSS1)",
+    				constraintRuleName: "舒适套装_01<=>(内饰顶衬:  麂皮，黑色&副驾腿托：电动&二排座椅腿托：电动&一排座椅按摩：多种按摩模式，可OTA升级&二排座椅按摩：有&一排座椅通风：有&二排座椅通风：有)",
+    				constraintRuleNameEn: "Comfort_01<=>(INTERIOR ROOF：SUEDE, BLACK&LEG SUPPORT-PASS: POWER&LEG SUPPORT - 2ND ROW SEAT: POWER&MASSAGE - 1ST ROW SEAT: AVAILABLE, MULTI-MODE, OTA UPGRADE&MASSAGE - 2ND ROW SEAT: AVAILABLE&VENTILATION - 1ST ROW SEAT: AVAILABLE&VENTILATION - 2ND ROW SEAT: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "PKG201<=>(AQS1&DBR1&DIDC&EAS1&HMS1&IFS1&IPL1&PLD1&SASC)",
+    				constraintRuleName: "沉浸套装_01<=>(生化医疗级HEPA高效空气滤芯：有&主驾生物识别：有&副驾显示屏：双屏，触摸&场景音效：有&个人健康管理平台：有&智能香氛发生器：有&仪表两端发光面板：有&前门发光面板:有&扬声器：加强17扬声器)",
+    				constraintRuleNameEn: "Immersion_01<=>(EQUIPMENT - HEPA FILTER: AVAILABLE&DRIVER SIDE BIOMETRIC RECOGNITION: AVAILABLE&DISPLAY INSTRUMENT-PASSAGE SIDE: DUAL, TOUCH SCREEN&EXTERNAL AMPLIFIER-SCENE SOUND: AVAILABLE&HEALTH MANAGEMENT SYSTEM: AVAILABLE&EQUIPMENT - INTELLIGENT FRAGRANCE SYSTEMS: AVAILABLE&ILLUMINATION PANEL - IP ENDS: AVAILABLE&PANEL LAMP - FRT DOOR : AVAILABLE&SPEAKER SYSTEM: ENHANCED AUDIO, 17 SPEAKERS)"
+    			},
+    			{
+    				constraintRuleCode: "PKG301<=>(DLP1&FHLB&FRR1)",
+    				constraintRuleName: "科技套装_01<=>(智能灯光控制：有&前照灯：数字光处理&车外人脸识别进入：有)",
+    				constraintRuleNameEn: "Tech_01<=>(DLP CONTROL: AVAILABLE&HEADLAMPS: DLP&FACE RECOGNITION ENTRY, OUTER: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "PKG401<=>(HDM1&HWA1&ICC1&LLC1&PPF1&TJP1)",
+    				constraintRuleName: "自动驾驶高阶功能套装_01<=>(高精地图：有&高速辅助：有&智能巡航：有&拨杆换道：有&遥控泊车：泊入泊出&交通拥堵代驾（TJP）：有)",
+    				constraintRuleNameEn: "HiPhi Pilot_01<=>(HD MAP: AVAILABLE&HIGHWAY ASSIST: AVAILABLE&INTELLIGENT CRUISE CONTROL：AVAILABLE&SHIFT LEVER LANE CHANGE: AVAILABLE&PILOTED PARKING: RPA&TRAFFIC JAM PILOT: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "PKG301=>PKG101",
+    				constraintRuleName: "科技套装_01=>舒适套装_01",
+    				constraintRuleNameEn: "Tech_01=>Comfort_01"
+    			},
+    			{
+    				constraintRuleCode: "ITRE=>ITMC",
+    				constraintRuleName: "内饰颜色：白+紫色=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "ITRD=>ITMC",
+    				constraintRuleName: "内饰颜色：座椅/门板/IP/中控黑色，橙色缝线=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "ITRF=>ITMC",
+    				constraintRuleName: "内饰颜色：浅蓝=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "PKG201=>PKG101",
+    				constraintRuleName: "沉浸套装_01=>舒适套装_01",
+    				constraintRuleNameEn: "Immersion_01=>Comfort_01"
+    			},
+    			{
+    				constraintRuleCode: "STMC<=>ITMB",
+    				constraintRuleName: "座椅风格：软真皮座椅<=>内饰材质：门板/IP/中控 PU+PVC，座椅软皮革",
+    				constraintRuleNameEn: "SEAT TRIM: NAPPA LEATHER<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, NAPPA LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "(WWTB|WWTC)<=>WWAD",
+    				constraintRuleName: "(车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<=>车轮：R22 寸，类型2",
+    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<=>WHEEL ALLOY: TYPE 2-R22"
+    			},
+    			{
+    				constraintRuleCode: "(WWAE|WWAG)<=>MKT001",
+    				constraintRuleName: "(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)<=>车轮悬浮立标",
+    				constraintRuleNameEn: "(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)<=>floating wheel cap"
+    			},
+    			{
+    				constraintRuleCode: "(ITRA|ITRB)<=>ITMA",
+    				constraintRuleName: "(内饰颜色：座椅/门板/IP/中控白色|内饰颜色：座椅/门板/IP/中控黑色)<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER|INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER)<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
+    			},
+    			{
+    				constraintRuleCode: "WWTA<=>WWAC",
+    				constraintRuleName: "车轮装饰盖：R20 寸，类型1<=>车轮：R20 寸，类型1",
+    				constraintRuleNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20<=>WHEEL ALLOY: TYPE 1-R20"
+    			},
+    			{
+    				constraintRuleCode: "CFF3=>(ITRD|ITRF)",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编=>(内饰颜色：座椅/门板/IP/中控黑色，橙色缝线|内饰颜色：浅蓝)",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL=>(INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING|INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)"
+    			},
+    			{
+    				constraintRuleCode: "CFF4=>ITRE",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色=>内饰颜色：白+紫色",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY=>(INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX)"
+    			},
+    			{
+    				constraintRuleCode: "HMS1<=>DBR1",
+    				constraintRuleName: "个人健康管理平台：有<=>主驾生物识别：有",
+    				constraintRuleNameEn: "HEALTH MANAGEMENT SYSTEM: AVAILABLE<=>DRIVER SIDE BIOMETRIC RECOGNITION: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "FHLB<=>DLP1",
+    				constraintRuleName: "前照灯：数字光处理<=>智能灯光控制：有",
+    				constraintRuleNameEn: "HEADLAMPS: DLP<=>DLP CONTROL: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "HLS1<|>DLP1",
+    				constraintRuleName: "远近光自动切换：有<|>智能灯光控制：有",
+    				constraintRuleNameEn: "HEADLAMP AUTO SWITCH: AVAILABLE<|>DLP CONTROL: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "ITRC<=>ITMB",
+    				constraintRuleName: "内饰颜色：座椅橙色，门板/IP/中控黑色<=>内饰材质：门板/IP/中控 PU+PVC，座椅软皮革",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER)<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, NAPPA LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "CFF3<=>CRF3",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编<=>后排地垫：高级羊毛精编",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL"
+    			},
+    			{
+    				constraintRuleCode: "CFF4<=>CRF4",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色<=>后排地垫：高级羊毛精编，灰色",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL, GREY"
+    			},
+    			{
+    				constraintRuleCode: "CFF1<=>CRF1",
+    				constraintRuleName: "前排主副驾地垫：有<=>后排地垫：有",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: AVAILABLE<=>COVERING REAR FLOOR MATS, AUX: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "(STMD|STME)<=>ITMC",
+    				constraintRuleName: "(座椅风格：半苯胺真皮座椅|座椅风格：半苯胺真皮座椅带创始版标识)<=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
+    				constraintRuleNameEn: "(SEAT TRIM: SEMI ANILINE LEATHER|SEAT TRIM: SEMI ANILINE LEATHER, W FOUNDER EDITITON PATTERN)<=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
+    			},
+    			{
+    				constraintRuleCode: "WWAC<=>WWSF",
+    				constraintRuleName: "车轮：R20 寸，类型1<=>车胎：R20 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 1-R20<=>WHEEL SIZE: 20 INCH"
+    			},
+    			{
+    				constraintRuleCode: "WWAD=>WWSG",
+    				constraintRuleName: "车轮：R22 寸，类型2=>车胎：R22 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 2-R22=>WHEEL SIZE: 22 INCH"
+    			},
+    			{
+    				constraintRuleCode: "WWAE=>WWSG",
+    				constraintRuleName: "车轮：R22 寸，类型3=>车胎：R22 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22=>WHEEL SIZE: 22 INCH"
+    			},
+    			{
+    				constraintRuleCode: "WWAG=>WWSG",
+    				constraintRuleName: "车轮：R22 寸，类型3，暗色=>车胎：R22 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK=>WHEEL SIZE: 22 INCH"
+    			},
+    			{
+    				constraintRuleCode: "EDSB<=>ADMB",
+    				constraintRuleName: "电驱动系统：后驱，200kw<=>驱动模式：后驱",
+    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: RR, PMSM, 200kw<=>DRIVEN MODE: RWD"
+    			},
+    			{
+    				constraintRuleCode: "EDSC<=>ADME",
+    				constraintRuleName: "电驱动系统：前后驱，200kw<=>驱动模式：全时四驱",
+    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: FRT, RR, PMSM, 200kw<=>DRIVEN MODE: 4WD 全时四驱"
+    			},
+    			{
+    				constraintRuleCode: "LSP0=>P4SL0",
+    				constraintRuleName: "副驾腿托：无=>副驾座椅电动腿托调节开关：无",
+    				constraintRuleNameEn: "LEG SUPPORT-PASS: NOT AVAILABLE=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: NOT AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "LSP2=>P4SL1",
+    				constraintRuleName: "副驾腿托：电动=>副驾座椅电动腿托调节开关：有",
+    				constraintRuleNameEn: "LEG SUPPORT-PASS: POWER=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "MSS0=>(S4ML0&S4MR0)",
+    				constraintRuleName: "二排座椅按摩：无=>(二排座椅按摩 - 左座椅：无&二排座椅按摩 - 右座椅：无)",
+    				constraintRuleNameEn: "MASSAGE - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST MASSAGE - LH: NOT AVAILABLE&2ND ROW ST MASSAGE - RH: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "MSS1=>(S4ML1&S4MR1)",
+    				constraintRuleName: "二排座椅按摩：有=>(二排座椅按摩 - 左座椅：有&二排座椅按摩 - 右座椅：有)",
+    				constraintRuleNameEn: "MASSAGE - 2ND ROW SEAT: AVAILABLE=>(2ND ROW ST MASSAGE - LH: AVAILABLE&2ND ROW ST MASSAGE - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "VSS0=>(S4VL0&S4VR0)",
+    				constraintRuleName: "二排座椅通风：无=>(二排座椅通风 - 左座椅：无&二排座椅通风 - 右座椅：无)",
+    				constraintRuleNameEn: "VENTILATION - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST VENTILATION - LH: NOT AVAILABLE&2ND ROW ST VENTILATION - RH: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "VSS1=>(S4VL1&S4VR1)",
+    				constraintRuleName: "二排座椅通风：有=>(二排座椅通风 - 左座椅：有&二排座椅通风 - 右座椅：有)",
+    				constraintRuleNameEn: "VENTILATION - 2ND ROW SEAT: AVAILABLE=>(2ND ROW ST VENTILATION - LH: AVAILABLE&2ND ROW ST VENTILATION - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "VFS0=>(P4SV0&D4SV0)",
+    				constraintRuleName: "一排座椅通风：无=>(副驾座椅通风：无&主驾座椅通风：无)",
+    				constraintRuleNameEn: "VENTILATION - 1ST ROW SEAT: NOT AVAILABLE=>(PASS ST VENTILATION: NOT AVAILABLE&DRVR ST VENTILATION: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "VFS1=>(P4SV1&D4SV1)",
+    				constraintRuleName: "一排座椅通风：有=>(副驾座椅通风：有&主驾座椅通风：有)",
+    				constraintRuleNameEn: "VENTILATION - 1ST ROW SEAT: AVAILABLE=>(PASS ST VENTILATION: AVAILABLE&DRVR ST VENTILATION: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "MFS0=>(D4SM0&P4SM0)",
+    				constraintRuleName: "一排座椅按摩：无=>(主驾座椅按摩：无&副驾座椅按摩：无)",
+    				constraintRuleNameEn: "MASSAGE - 1ST ROW SEAT: NOT AVAILABLE=>(DRVR ST MASSAGE: NOT AVAILABLE&PASS ST MASSAGE: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "LSS0=>(S4PL0&S4PR0)",
+    				constraintRuleName: "二排座椅腿托：无=>(二排座椅腿托 - 左座椅：无&二排座椅腿托 - 右座椅：无)",
+    				constraintRuleNameEn: "LEG SUPPORT - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST LEG SUPPORT - LH: NOT AVAILABLE&2ND ROW ST LEG SUPPORT - RH: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "MFS2=>(D4SM1&P4SM1)",
+    				constraintRuleName: "一排座椅按摩：多种按摩模式，可OTA升级=>(主驾座椅按摩：有&副驾座椅按摩：有)",
+    				constraintRuleNameEn: "MASSAGE - 1ST ROW SEAT: AVAILABLE, MULTI-MODE, OTA UPGRADE=>(DRVR ST MASSAGE: AVAILABLE&PASS ST MASSAGE: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "LSS2=>(S4PL2&S4PR2)",
+    				constraintRuleName: "二排座椅腿托：电动=>(二排座椅腿托 - 左座椅：电动&二排座椅腿托 - 右座椅：电动)",
+    				constraintRuleNameEn: "LEG SUPPORT - 2ND ROW SEAT: POWER=>(2ND ROW ST LEG SUPPORT - LH: POWER&2ND ROW ST LEG SUPPORT - RH: POWER)"
+    			},
+    			{
+    				constraintRuleCode: "(STLC&LSS2)=>(S7PL0&S7PR0)",
+    				constraintRuleName: "(座位布置：2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
+    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: NOT AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: NOT AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "(STLA&LSS2)=>(S7PL1&S7PR1)",
+    				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：有&二排座椅电动腿托开关 - 右座椅：有)",
+    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "(WWTA|WWTB|WWTC)<|>(WWAE|WWAG)",
+    				constraintRuleName: "(车轮装饰盖：R20 寸，类型1|车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<|>(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)",
+    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20|WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<|>(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)"
+    			}
+    		],
+    		veFamilyList: [
+    			{
+    				familyId: "1364280019320438829",
+    				familyCode: "CRT",
+    				familyName: "车载冰箱",
+    				familyNameEn: "REFIGERATOR",
+    				featureId: "1364280019756646402",
+    				featureCode: "CRTB",
+    				featureName: "豪华冰箱（带电动香槟托架）",
+    				featureNameEn: "REFIGERATOR: ELECTIRC TRAY - CHAMPAGNE",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019320438829",
+    				familyCode: "CRT",
+    				familyName: "车载冰箱",
+    				familyNameEn: "REFIGERATOR",
+    				featureId: "1364280019777617921",
+    				featureCode: "CRTA",
+    				featureName: "冰箱",
+    				featureNameEn: "REFIGERATOR: ELECTIRC TRAY - REGULAR DRINKS",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019337216003",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280019874086913",
+    				featureCode: "ITRF",
+    				featureName: "星海蓝半苯胺内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019337216005",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280019890864129",
+    				featureCode: "ITRE",
+    				featureName: "星环灰半苯胺内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019320438829",
+    				familyCode: "CRT",
+    				familyName: "车载冰箱",
+    				familyNameEn: "REFIGERATOR",
+    				featureId: "1364280019798589442",
+    				featureCode: "CRT0",
+    				featureName: "车载冰箱：无",
+    				featureNameEn: "REFIGERATOR: NOT AVAILABLE",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "-"
+    			},
+    			{
+    				familyId: "1364280019337216059",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280019920224257",
+    				featureCode: "WWAG",
+    				featureName: "22英寸7辐枪灰轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019337216059",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280019937001474",
+    				featureCode: "WWAE",
+    				featureName: "22英寸7辐亮银轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019337216059",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280019957972994",
+    				featureCode: "WWAD",
+    				featureName: "车轮：R22 寸，类型2",
+    				featureNameEn: "WHEEL ALLOY: TYPE 2-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "-"
+    			},
+    			{
+    				familyId: "1364280019337216059",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280019974750209",
+    				featureCode: "WWAC",
+    				featureName: "车轮：R20 寸，类型1",
+    				featureNameEn: "WHEEL ALLOY: TYPE 1-R20",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "-"
+    			},
+    			{
+    				familyId: "1364280019345604648",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280020067024898",
+    				featureCode: "ITRD",
+    				featureName: "星月黑半苯胺内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019353993297",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280020087996417",
+    				featureCode: "BACM",
+    				featureName: "玉石灰",
+    				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019353993299",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280020104773634",
+    				featureCode: "BACL",
+    				featureName: "珍珠白",
+    				featureNameEn: "EW0A-WHITE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019353993301",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280020121550849",
+    				featureCode: "BACJ",
+    				featureName: "水晶紫",
+    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019353993303",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280020142522370",
+    				featureCode: "BACG",
+    				featureName: "丹岩橙",
+    				featureNameEn: "EJ0A-ORANGE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019353993305",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280020159299586",
+    				featureCode: "BACD",
+    				featureName: "墨晶灰",
+    				featureNameEn: "EG1B-DARK GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019353993307",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280020180271106",
+    				featureCode: "BACC",
+    				featureName: "钛金灰",
+    				featureNameEn: "EG1A-MATT GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019353993309",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280020197048322",
+    				featureCode: "BACA",
+    				featureName: "钻石蓝",
+    				featureNameEn: "EB1A-BLUE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280019362381871",
+    				familyCode: "PKG4",
+    				familyName: "选装包4_自动驾驶高阶功能套装",
+    				familyNameEn: "Pkg4_HiPhi Pilot",
+    				featureId: "1364280020910080001",
+    				featureCode: "PKG401",
+    				featureName: "HiPhi Pilot全配包",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280019362381873",
+    				familyCode: "PKG3",
+    				familyName: "选装包3_科技套装",
+    				familyNameEn: "Pkg3_Tech",
+    				featureId: "1364280020935245825",
+    				featureCode: "PKG301",
+    				featureName: "科技套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280019362381875",
+    				familyCode: "PKG2",
+    				familyName: "选装包2_沉浸套装",
+    				familyNameEn: "Pkg2_Immersion",
+    				featureId: "1364280020960411650",
+    				featureCode: "PKG201",
+    				featureName: "沉浸套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280019362381877",
+    				familyCode: "PKG1",
+    				familyName: "选装包1_舒适套装",
+    				familyNameEn: "Pkg1_Comfort",
+    				featureId: "1364280020985577474",
+    				featureCode: "PKG101",
+    				featureName: "座享套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			}
+    		]
+    	},
+    	{
+    		carTypeId: "1364280021321121793",
+    		carTypeCode: "VX1_0006_01",
+    		carTypeCn: "旗舰版4座",
+    		carTypeEn: null,
+    		orderNo: null,
+    		price: "880000.00",
+    		discountPrice: "0.00",
     		constraintRuleList: [
     			{
     				constraintRuleCode: "(STLA&LSS0)=>(S7PL0&S7PR0)",
@@ -18248,314 +19225,287 @@
     				constraintRuleCode: "(STLA&LSS2)=>(S7PL1&S7PR1)",
     				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：有&二排座椅电动腿托开关 - 右座椅：有)",
     				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "(WWTA|WWTB|WWTC)<|>(WWAE|WWAG)",
+    				constraintRuleName: "(车轮装饰盖：R20 寸，类型1|车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<|>(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)",
+    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20|WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<|>(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)"
     			}
     		],
-    		veFaimlyList: [
+    		veFamilyList: [
     			{
-    				faimlyId: "1358388882823692290",
-    				faimlyCode: "PKG1",
-    				faimlyName: "选装包1_舒适套装",
-    				faimlyNameEn: "Pkg1_Comfort",
-    				featureId: "1358388885067644929",
-    				featureCode: "PKG101",
-    				featureName: "座享套装",
-    				featureNameEn: "Comfort_01",
-    				relationShip: "S",
+    				familyId: "1364280021656666168",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280022139011073",
+    				featureCode: "WWAD",
+    				featureName: "车轮：R22 寸，类型2",
+    				featureNameEn: "WHEEL ALLOY: TYPE 2-R22",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "1"
+    				relationShip: "-"
     			},
     			{
-    				faimlyId: "1358388882827886593",
-    				faimlyCode: "PKG2",
-    				faimlyName: "选装包2_沉浸套装",
-    				faimlyNameEn: "Pkg2_Immersion",
-    				featureId: "1358388885084422146",
-    				featureCode: "PKG201",
-    				featureName: "沉浸套装",
-    				featureNameEn: "Immersion_01",
-    				relationShip: "S",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388882832080897",
-    				faimlyCode: "PKG3",
-    				faimlyName: "选装包3_科技套装",
-    				faimlyNameEn: "Pkg3_Tech",
-    				featureId: "1358388885105393666",
-    				featureCode: "PKG301",
-    				featureName: "科技套装",
-    				featureNameEn: "Tech_01",
-    				relationShip: "S",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388882832080899",
-    				faimlyCode: "PKG4",
-    				faimlyName: "选装包4_自动驾驶高阶功能套装",
-    				faimlyNameEn: "Pkg4_HiPhi Pilot",
-    				featureId: "1358388885122170881",
-    				featureCode: "PKG401",
-    				featureName: "HiPhi Pilot全配包",
-    				featureNameEn: "HiPhi Pilot_01",
-    				relationShip: "S",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388883138265089",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390109254959106",
-    				featureCode: "WWAE",
-    				featureName: "22英寸7辐亮银轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388883138265091",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390109057826817",
+    				familyId: "1364280021656666168",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280022159982593",
     				featureCode: "WWAG",
     				featureName: "22英寸7辐枪灰轮圈",
     				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
-    				relationShip: "O",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388883205373953",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388883209568258",
-    				featureCode: "ITRE",
-    				featureName: "星环灰半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
-    				relationShip: "O",
+    				familyId: "1364280021656666168",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280022180954114",
+    				featureCode: "WWAE",
+    				featureName: "22英寸7辐亮银轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388883213762561",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388883217956865",
-    				featureCode: "ITRF",
-    				featureName: "星海蓝半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX",
-    				relationShip: "O",
+    				familyId: "1364280021656666168",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280022197731330",
+    				featureCode: "WWAC",
+    				featureName: "车轮：R20 寸，类型1",
+    				featureNameEn: "WHEEL ALLOY: TYPE 1-R20",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "-"
     			},
     			{
-    				faimlyId: "1358388883750633476",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388883754827777",
-    				featureCode: "BACA",
-    				featureName: "钻石蓝",
-    				featureNameEn: "EB1A-BLUE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388883763216385",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388883763216387",
-    				featureCode: "BACC",
-    				featureName: "钛金灰",
-    				featureNameEn: "EG1A-MATT GREY METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388883771604994",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388883771604996",
-    				featureCode: "BACD",
-    				featureName: "墨晶灰",
-    				featureNameEn: "EG1B-DARK GREY METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388883779993602",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388883779993604",
-    				featureCode: "BACG",
-    				featureName: "丹岩橙",
-    				featureNameEn: "EJ0A-ORANGE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388883788382210",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388883792576513",
-    				featureCode: "BACJ",
-    				featureName: "水晶紫",
-    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388883796770817",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388883800965121",
-    				featureCode: "BACL",
-    				featureName: "珍珠白",
-    				featureNameEn: "EW0A-WHITE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388883805159426",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388883809353730",
+    				familyId: "1364280021673443404",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280022298394626",
     				featureCode: "BACM",
     				featureName: "玉石灰",
     				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
-    				relationShip: "O",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "3"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388884170063876",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388884174258177",
-    				featureCode: "ITRA",
-    				featureName: "银河白内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
-    				relationShip: "-",
+    				familyId: "1364280021673443406",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280022319366145",
+    				featureCode: "BACL",
+    				featureName: "珍珠白",
+    				featureNameEn: "EW0A-WHITE PEARL",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388884182646786",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388884186841089",
-    				featureCode: "ITRB",
-    				featureName: "深空黑内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
-    				relationShip: "-",
+    				familyId: "1364280021673443408",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280022357114882",
+    				featureCode: "BACJ",
+    				featureName: "水晶紫",
+    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388884191035394",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388884195229698",
-    				featureCode: "ITRC",
-    				featureName: "星曦橙内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER",
-    				relationShip: "-",
+    				familyId: "1364280021673443410",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280022378086401",
+    				featureCode: "BACG",
+    				featureName: "丹岩橙",
+    				featureNameEn: "EJ0A-ORANGE PEARL",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388884199424002",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388884203618306",
+    				familyId: "1364280021673443412",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280022394863617",
+    				featureCode: "BACD",
+    				featureName: "墨晶灰",
+    				featureNameEn: "EG1B-DARK GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280021673443414",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280022415835137",
+    				featureCode: "BACA",
+    				featureName: "钻石蓝",
+    				featureNameEn: "EB1A-BLUE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280021673443416",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280022436806658",
+    				featureCode: "BACC",
+    				featureName: "钛金灰",
+    				featureNameEn: "EG1A-MATT GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280021686026300",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280022453583874",
+    				featureCode: "ITRF",
+    				featureName: "星海蓝半苯胺内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280021686026302",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280022474555393",
+    				featureCode: "ITRE",
+    				featureName: "星环灰半苯胺内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280021686026304",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280022491332609",
     				featureCode: "ITRD",
     				featureName: "星月黑半苯胺内饰",
     				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
-    				relationShip: "O",
+    				featureType: "4",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388884354613251",
-    				faimlyCode: "CRT",
-    				faimlyName: "车载冰箱",
-    				faimlyNameEn: "REFIGERATOR",
-    				featureId: "1358390109158490113",
-    				featureCode: "CRTA",
-    				featureName: "冰箱",
-    				featureNameEn: "REFIGERATOR: ELECTIRC TRAY - REGULAR DRINKS",
-    				relationShip: "O",
+    				familyId: "1364280021686026306",
+    				familyCode: "PKG4",
+    				familyName: "选装包4_自动驾驶高阶功能套装",
+    				familyNameEn: "Pkg4_HiPhi Pilot",
+    				featureId: "1364280023246307329",
+    				featureCode: "PKG401",
+    				featureName: "HiPhi Pilot全配包",
+    				featureNameEn: null,
+    				featureType: "1",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "S"
     			},
     			{
-    				faimlyId: "1358388884358807553",
-    				faimlyCode: "CRT",
-    				faimlyName: "车载冰箱",
-    				faimlyNameEn: "REFIGERATOR",
-    				featureId: "1358390109045243905",
-    				featureCode: "CRTB",
-    				featureName: "豪华冰箱（带电动香槟托架）",
-    				featureNameEn: "REFIGERATOR: ELECTIRC TRAY - CHAMPAGNE",
-    				relationShip: "O",
+    				familyId: "1364280021686026308",
+    				familyCode: "PKG3",
+    				familyName: "选装包3_科技套装",
+    				familyNameEn: "Pkg3_Tech",
+    				featureId: "1364280023271473154",
+    				featureCode: "PKG301",
+    				featureName: "科技套装",
+    				featureNameEn: null,
+    				featureType: "1",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280021686026310",
+    				familyCode: "PKG2",
+    				familyName: "选装包2_沉浸套装",
+    				familyNameEn: "Pkg2_Immersion",
+    				featureId: "1364280023296638977",
+    				featureCode: "PKG201",
+    				featureName: "沉浸套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
+    			},
+    			{
+    				familyId: "1364280021686026312",
+    				familyCode: "PKG1",
+    				familyName: "选装包1_舒适套装",
+    				familyNameEn: "Pkg1_Comfort",
+    				featureId: "1364280023321804802",
+    				featureCode: "PKG101",
+    				featureName: "座享套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "S"
     			}
     		]
     	},
     	{
-    		carTypeId: "1358388887659724801",
+    		carTypeId: "1364280023636377602",
     		carTypeCode: "VX1XXXXX_01",
     		carTypeCn: "标准版",
     		carTypeEn: null,
     		orderNo: null,
-    		price: null,
-    		discountPrice: null,
+    		price: "600000.00",
+    		discountPrice: "0.00",
     		constraintRuleList: [
+    			{
+    				constraintRuleCode: "CFF3<=>CRF3",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编<=>后排地垫：高级羊毛精编",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL"
+    			},
+    			{
+    				constraintRuleCode: "CFF4<=>CRF4",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色<=>后排地垫：高级羊毛精编，灰色",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL, GREY"
+    			},
     			{
     				constraintRuleCode: "(STLA&LSS0)=>(S7PL0&S7PR0)",
     				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：无)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
@@ -18667,16 +19617,6 @@
     				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER)<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, NAPPA LEATHER SEAT"
     			},
     			{
-    				constraintRuleCode: "CFF3<=>CRF3",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编<=>后排地垫：高级羊毛精编",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL"
-    			},
-    			{
-    				constraintRuleCode: "CFF4<=>CRF4",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色<=>后排地垫：高级羊毛精编，灰色",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL, GREY"
-    			},
-    			{
     				constraintRuleCode: "CFF1<=>CRF1",
     				constraintRuleName: "前排主副驾地垫：有<=>后排地垫：有",
     				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: AVAILABLE<=>COVERING REAR FLOOR MATS, AUX: AVAILABLE"
@@ -18785,321 +19725,284 @@
     				constraintRuleCode: "(STLA&LSS2)=>(S7PL1&S7PR1)",
     				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：有&二排座椅电动腿托开关 - 右座椅：有)",
     				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "(WWTA|WWTB|WWTC)<|>(WWAE|WWAG)",
+    				constraintRuleName: "(车轮装饰盖：R20 寸，类型1|车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<|>(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)",
+    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20|WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<|>(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)"
     			}
     		],
-    		veFaimlyList: [
+    		veFamilyList: [
     			{
-    				faimlyId: "1358388887898800129",
-    				faimlyCode: "PKG1",
-    				faimlyName: "选装包1_舒适套装",
-    				faimlyNameEn: "Pkg1_Comfort",
-    				featureId: "1358388889895288833",
-    				featureCode: "PKG101",
-    				featureName: "座享套装",
-    				featureNameEn: "Comfort_01",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388887898800131",
-    				faimlyCode: "PKG2",
-    				faimlyName: "选装包2_沉浸套装",
-    				faimlyNameEn: "Pkg2_Immersion",
-    				featureId: "1358388889916260353",
-    				featureCode: "PKG201",
-    				featureName: "沉浸套装",
-    				featureNameEn: "Immersion_01",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388887902994434",
-    				faimlyCode: "PKG3",
-    				faimlyName: "选装包3_科技套装",
-    				faimlyNameEn: "Pkg3_Tech",
-    				featureId: "1358388889933037569",
-    				featureCode: "PKG301",
-    				featureName: "科技套装",
-    				featureNameEn: "Tech_01",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388887907188737",
-    				faimlyCode: "PKG4",
-    				faimlyName: "选装包4_自动驾驶高阶功能套装",
-    				faimlyNameEn: "Pkg4_HiPhi Pilot",
-    				featureId: "1358388889949814785",
-    				featureCode: "PKG401",
-    				featureName: "HiPhi Pilot全配包",
-    				featureNameEn: "HiPhi Pilot_01",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388888590860291",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388888595054594",
-    				featureCode: "BACD",
-    				featureName: "墨晶灰",
-    				featureNameEn: "EG1B-DARK GREY METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388888704106498",
-    				faimlyCode: "WWT",
-    				faimlyName: "车轮装饰盖",
-    				faimlyNameEn: "WHEEL TRIM INSERT-PLASTIC",
-    				featureId: "1358390118058803202",
-    				featureCode: "WWTA",
-    				featureName: "20英寸破风轮圈",
-    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388888762826754",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388888767021058",
-    				featureCode: "ITRA",
-    				featureName: "银河白内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388888771215362",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388888775409666",
-    				featureCode: "ITRD",
-    				featureName: "星月黑半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388888792186883",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388888796381185",
-    				featureCode: "BACC",
-    				featureName: "钛金灰",
-    				featureNameEn: "EG1A-MATT GREY METALLIC",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388888804769794",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388888804769796",
-    				featureCode: "BACG",
-    				featureName: "丹岩橙",
-    				featureNameEn: "EJ0A-ORANGE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388888842518530",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390119698776065",
-    				featureCode: "WWAG",
-    				featureName: "22英寸7辐枪灰轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388888842518532",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390116859232257",
-    				featureCode: "WWAE",
-    				featureName: "22英寸7辐亮银轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388888867684354",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388888871878658",
-    				featureCode: "ITRB",
-    				featureName: "深空黑内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388888884461572",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388888888655874",
-    				featureCode: "ITRC",
-    				featureName: "星曦橙内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388888897044481",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388888901238785",
-    				featureCode: "BACA",
-    				featureName: "钻石蓝",
-    				featureNameEn: "EB1A-BLUE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388888905433090",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388888909627393",
-    				featureCode: "BACJ",
-    				featureName: "水晶紫",
-    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388888913821698",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388888918016002",
-    				featureCode: "BACL",
-    				featureName: "珍珠白",
-    				featureNameEn: "EW0A-WHITE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388888922210305",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388888926404609",
+    				familyId: "1364280024026447879",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280024403935233",
     				featureCode: "BACM",
     				featureName: "玉石灰",
     				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
-    				relationShip: "O",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "3"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388889316474881",
-    				faimlyCode: "WWT",
-    				faimlyName: "车轮装饰盖",
-    				faimlyNameEn: "WHEEL TRIM INSERT-PLASTIC",
-    				featureId: "1358390117853282305",
-    				featureCode: "WWTC",
-    				featureName: "22英寸锋影轮圈",
-    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22",
-    				relationShip: "O",
+    				familyId: "1364280024026447881",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280024424906754",
+    				featureCode: "BACL",
+    				featureName: "珍珠白",
+    				featureNameEn: "EW0A-WHITE PEARL",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388889320669185",
-    				faimlyCode: "WWT",
-    				faimlyName: "车轮装饰盖",
-    				faimlyNameEn: "WHEEL TRIM INSERT-PLASTIC",
-    				featureId: "1358390117131862017",
+    				familyId: "1364280024026447883",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280024441683970",
+    				featureCode: "BACJ",
+    				featureName: "水晶紫",
+    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024026447885",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280024462655489",
+    				featureCode: "BACD",
+    				featureName: "墨晶灰",
+    				featureNameEn: "EG1B-DARK GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024026447887",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280024479432705",
+    				featureCode: "BACA",
+    				featureName: "钻石蓝",
+    				featureNameEn: "EB1A-BLUE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024026447901",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280024500404226",
+    				featureCode: "ITRB",
+    				featureName: "深空黑内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024026447921",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280024525570049",
+    				featureCode: "WWAE",
+    				featureName: "22英寸7辐亮银轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024026447921",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280024546541569",
+    				featureCode: "WWAG",
+    				featureName: "22英寸7辐枪灰轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024026447949",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280024676564993",
+    				featureCode: "BACG",
+    				featureName: "丹岩橙",
+    				featureNameEn: "EJ0A-ORANGE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024026447965",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280024697536513",
+    				featureCode: "ITRA",
+    				featureName: "银河白内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024026447921",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280024567513090",
+    				featureCode: "WWAD",
+    				featureName: "车轮：R22 寸，类型2",
+    				featureNameEn: "WHEEL ALLOY: TYPE 2-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024030642238",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280024722702337",
     				featureCode: "WWTB",
     				featureName: "22英寸花影轮圈",
     				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22",
-    				relationShip: "O",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388889391972353",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388889391972355",
-    				featureCode: "ITRE",
-    				featureName: "星环灰半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
-    				relationShip: "-",
+    				familyId: "1364280024030642238",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280024743673858",
+    				featureCode: "WWTC",
+    				featureName: "22英寸锋影轮圈",
+    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388889400360962",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388889400360964",
-    				featureCode: "ITRF",
-    				featureName: "星海蓝半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX",
-    				relationShip: "-",
+    				familyId: "1364280024026447921",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280024584290306",
+    				featureCode: "WWAC",
+    				featureName: "车轮：R20 寸，类型1",
+    				featureNameEn: "WHEEL ALLOY: TYPE 1-R20",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024030642238",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280024760451074",
+    				featureCode: "WWTA",
+    				featureName: "20英寸破风轮圈",
+    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024047419427",
+    				familyCode: "PKG4",
+    				familyName: "选装包4_自动驾驶高阶功能套装",
+    				familyNameEn: "Pkg4_HiPhi Pilot",
+    				featureId: "1364280025330876417",
+    				featureCode: "PKG401",
+    				featureName: "HiPhi Pilot全配包",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024047419429",
+    				familyCode: "PKG3",
+    				familyName: "选装包3_科技套装",
+    				familyNameEn: "Pkg3_Tech",
+    				featureId: "1364280025356042241",
+    				featureCode: "PKG301",
+    				featureName: "科技套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "-"
+    			},
+    			{
+    				familyId: "1364280024047419431",
+    				familyCode: "PKG2",
+    				familyName: "选装包2_沉浸套装",
+    				familyNameEn: "Pkg2_Immersion",
+    				featureId: "1364280025381208066",
+    				featureCode: "PKG201",
+    				featureName: "沉浸套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280024047419433",
+    				familyCode: "PKG1",
+    				familyName: "选装包1_舒适套装",
+    				familyNameEn: "Pkg1_Comfort",
+    				featureId: "1364280025406373889",
+    				featureCode: "PKG101",
+    				featureName: "座享套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
     			}
     		]
     	},
     	{
-    		carTypeId: "1358388889974980609",
+    		carTypeId: "1364280025708363777",
     		carTypeCode: "VX1XXXXX_02",
     		carTypeCn: "精英版",
     		carTypeEn: null,
@@ -19118,6 +20021,16 @@
     				constraintRuleNameEn: "Comfort_01<=>(INTERIOR ROOF：SUEDE, BLACK&LEG SUPPORT-PASS: POWER&LEG SUPPORT - 2ND ROW SEAT: POWER&MASSAGE - 1ST ROW SEAT: AVAILABLE, MULTI-MODE, OTA UPGRADE&MASSAGE - 2ND ROW SEAT: AVAILABLE&VENTILATION - 1ST ROW SEAT: AVAILABLE&VENTILATION - 2ND ROW SEAT: AVAILABLE)"
     			},
     			{
+    				constraintRuleCode: "EDSC<=>ADME",
+    				constraintRuleName: "电驱动系统：前后驱，200kw<=>驱动模式：全时四驱",
+    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: FRT, RR, PMSM, 200kw<=>DRIVEN MODE: 4WD 全时四驱"
+    			},
+    			{
+    				constraintRuleCode: "LSP0=>P4SL0",
+    				constraintRuleName: "副驾腿托：无=>副驾座椅电动腿托调节开关：无",
+    				constraintRuleNameEn: "LEG SUPPORT-PASS: NOT AVAILABLE=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: NOT AVAILABLE"
+    			},
+    			{
     				constraintRuleCode: "PKG201<=>(AQS1&DBR1&DIDC&EAS1&HMS1&IFS1&IPL1&PLD1&SASC)",
     				constraintRuleName: "沉浸套装_01<=>(生化医疗级HEPA高效空气滤芯：有&主驾生物识别：有&副驾显示屏：双屏，触摸&场景音效：有&个人健康管理平台：有&智能香氛发生器：有&仪表两端发光面板：有&前门发光面板:有&扬声器：加强17扬声器)",
     				constraintRuleNameEn: "Immersion_01<=>(EQUIPMENT - HEPA FILTER: AVAILABLE&DRIVER SIDE BIOMETRIC RECOGNITION: AVAILABLE&DISPLAY INSTRUMENT-PASSAGE SIDE: DUAL, TOUCH SCREEN&EXTERNAL AMPLIFIER-SCENE SOUND: AVAILABLE&HEALTH MANAGEMENT SYSTEM: AVAILABLE&EQUIPMENT - INTELLIGENT FRAGRANCE SYSTEMS: AVAILABLE&ILLUMINATION PANEL - IP ENDS: AVAILABLE&PANEL LAMP - FRT DOOR : AVAILABLE&SPEAKER SYSTEM: ENHANCED AUDIO, 17 SPEAKERS)"
@@ -19263,16 +20176,6 @@
     				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: RR, PMSM, 200kw<=>DRIVEN MODE: RWD"
     			},
     			{
-    				constraintRuleCode: "EDSC<=>ADME",
-    				constraintRuleName: "电驱动系统：前后驱，200kw<=>驱动模式：全时四驱",
-    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: FRT, RR, PMSM, 200kw<=>DRIVEN MODE: 4WD 全时四驱"
-    			},
-    			{
-    				constraintRuleCode: "LSP0=>P4SL0",
-    				constraintRuleName: "副驾腿托：无=>副驾座椅电动腿托调节开关：无",
-    				constraintRuleNameEn: "LEG SUPPORT-PASS: NOT AVAILABLE=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: NOT AVAILABLE"
-    			},
-    			{
     				constraintRuleCode: "LSP2=>P4SL1",
     				constraintRuleName: "副驾腿托：电动=>副驾座椅电动腿托调节开关：有",
     				constraintRuleNameEn: "LEG SUPPORT-PASS: POWER=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: AVAILABLE"
@@ -19336,328 +20239,306 @@
     				constraintRuleCode: "(STLA&LSS2)=>(S7PL1&S7PR1)",
     				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：有&二排座椅电动腿托开关 - 右座椅：有)",
     				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "(WWTA|WWTB|WWTC)<|>(WWAE|WWAG)",
+    				constraintRuleName: "(车轮装饰盖：R20 寸，类型1|车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<|>(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)",
+    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20|WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<|>(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)"
     			}
     		],
-    		veFaimlyList: [
+    		veFamilyList: [
     			{
-    				faimlyId: "1358388890230833154",
-    				faimlyCode: "PKG1",
-    				faimlyName: "选装包1_舒适套装",
-    				faimlyNameEn: "Pkg1_Comfort",
-    				featureId: "1358388892185378818",
-    				featureCode: "PKG101",
-    				featureName: "座享套装",
-    				featureNameEn: "Comfort_01",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388890243416065",
-    				faimlyCode: "PKG2",
-    				faimlyName: "选装包2_沉浸套装",
-    				faimlyNameEn: "Pkg2_Immersion",
-    				featureId: "1358388892202156033",
-    				featureCode: "PKG201",
-    				featureName: "沉浸套装",
-    				featureNameEn: "Immersion_01",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388890247610370",
-    				faimlyCode: "PKG3",
-    				faimlyName: "选装包3_科技套装",
-    				faimlyNameEn: "Pkg3_Tech",
-    				featureId: "1358388892218933249",
-    				featureCode: "PKG301",
-    				featureName: "科技套装",
-    				featureNameEn: "Tech_01",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388890247610372",
-    				faimlyCode: "PKG4",
-    				faimlyName: "选装包4_自动驾驶高阶功能套装",
-    				faimlyNameEn: "Pkg4_HiPhi Pilot",
-    				featureId: "1358388892235710465",
-    				featureCode: "PKG401",
-    				featureName: "HiPhi Pilot全配包",
-    				featureNameEn: "HiPhi Pilot_01",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388891002585089",
-    				faimlyCode: "WWT",
-    				faimlyName: "车轮装饰盖",
-    				faimlyNameEn: "WHEEL TRIM INSERT-PLASTIC",
-    				featureId: "1358390134445948929",
-    				featureCode: "WWTA",
-    				featureName: "20英寸破风轮圈",
-    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388891061305346",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388891061305348",
-    				featureCode: "ITRA",
-    				featureName: "银河白内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388891069693954",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388891069693956",
-    				featureCode: "ITRD",
-    				featureName: "星月黑半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388891086471172",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388891090665473",
-    				featureCode: "BACC",
-    				featureName: "钛金灰",
-    				featureNameEn: "EG1A-MATT GREY METALLIC",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388891094859777",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388891099054082",
-    				featureCode: "BACG",
-    				featureName: "丹岩橙",
-    				featureNameEn: "EJ0A-ORANGE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388891132608514",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390134508863489",
-    				featureCode: "WWAG",
-    				featureName: "22英寸7辐枪灰轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388891132608516",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390134836019202",
-    				featureCode: "WWAE",
-    				featureName: "22英寸7辐亮银轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388891157774338",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388891161968642",
-    				featureCode: "ITRB",
-    				featureName: "深空黑内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388891174551556",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388891178745857",
-    				featureCode: "ITRC",
-    				featureName: "星曦橙内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388891187134466",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388891191328769",
-    				featureCode: "BACA",
-    				featureName: "钻石蓝",
-    				featureNameEn: "EB1A-BLUE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388891195523073",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388891199717377",
-    				featureCode: "BACD",
-    				featureName: "墨晶灰",
-    				featureNameEn: "EG1B-DARK GREY METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388891203911682",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388891208105985",
-    				featureCode: "BACJ",
-    				featureName: "水晶紫",
-    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388891212300289",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388891216494593",
-    				featureCode: "BACL",
-    				featureName: "珍珠白",
-    				featureNameEn: "EW0A-WHITE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388891220688898",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388891224883201",
+    				familyId: "1364280026056491047",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280026450755585",
     				featureCode: "BACM",
     				featureName: "玉石灰",
     				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
-    				relationShip: "O",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "3"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388891589787652",
-    				faimlyCode: "WWT",
-    				faimlyName: "车轮装饰盖",
-    				faimlyNameEn: "WHEEL TRIM INSERT-PLASTIC",
-    				featureId: "1358390133867134978",
-    				featureCode: "WWTC",
-    				featureName: "22英寸锋影轮圈",
-    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22",
-    				relationShip: "O",
+    				familyId: "1364280026056491049",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280026471727106",
+    				featureCode: "BACL",
+    				featureName: "珍珠白",
+    				featureNameEn: "EW0A-WHITE PEARL",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388891593981953",
-    				faimlyCode: "WWT",
-    				faimlyName: "车轮装饰盖",
-    				faimlyNameEn: "WHEEL TRIM INSERT-PLASTIC",
-    				featureId: "1358390134076850177",
+    				familyId: "1364280026056491051",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280026492698625",
+    				featureCode: "BACJ",
+    				featureName: "水晶紫",
+    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026056491053",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280026509475841",
+    				featureCode: "BACD",
+    				featureName: "墨晶灰",
+    				featureNameEn: "EG1B-DARK GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026056491055",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280026530447361",
+    				featureCode: "BACA",
+    				featureName: "钻石蓝",
+    				featureNameEn: "EB1A-BLUE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026056491069",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280026547224578",
+    				featureCode: "ITRB",
+    				featureName: "深空黑内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026060685318",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280026576584706",
+    				featureCode: "WWAE",
+    				featureName: "22英寸7辐亮银轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026060685318",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280026593361921",
+    				featureCode: "WWAG",
+    				featureName: "22英寸7辐枪灰轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026060685346",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280026723385345",
+    				featureCode: "BACG",
+    				featureName: "丹岩橙",
+    				featureNameEn: "EJ0A-ORANGE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026060685362",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280026744356865",
+    				featureCode: "ITRA",
+    				featureName: "银河白内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026060685318",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280026610139137",
+    				featureCode: "WWAD",
+    				featureName: "车轮：R22 寸，类型2",
+    				featureNameEn: "WHEEL ALLOY: TYPE 2-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026064879680",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280026769522690",
     				featureCode: "WWTB",
     				featureName: "22英寸花影轮圈",
     				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22",
-    				relationShip: "O",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388891665285121",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388891669479425",
-    				featureCode: "ITRE",
-    				featureName: "星环灰半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
-    				relationShip: "-",
+    				familyId: "1364280026064879680",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280026786299905",
+    				featureCode: "WWTC",
+    				featureName: "22英寸锋影轮圈",
+    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388891673673730",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388891677868033",
-    				featureCode: "ITRF",
-    				featureName: "星海蓝半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX",
-    				relationShip: "-",
+    				familyId: "1364280026060685318",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280026631110657",
+    				featureCode: "WWAC",
+    				featureName: "车轮：R20 寸，类型1",
+    				featureNameEn: "WHEEL ALLOY: TYPE 1-R20",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026064879680",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280026807271426",
+    				featureCode: "WWTA",
+    				featureName: "20英寸破风轮圈",
+    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026090045505",
+    				familyCode: "PKG4",
+    				familyName: "选装包4_自动驾驶高阶功能套装",
+    				familyNameEn: "Pkg4_HiPhi Pilot",
+    				featureId: "1364280027335753729",
+    				featureCode: "PKG401",
+    				featureName: "HiPhi Pilot全配包",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026090045507",
+    				familyCode: "PKG3",
+    				familyName: "选装包3_科技套装",
+    				familyNameEn: "Pkg3_Tech",
+    				featureId: "1364280027365113857",
+    				featureCode: "PKG301",
+    				featureName: "科技套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "-"
+    			},
+    			{
+    				familyId: "1364280026090045509",
+    				familyCode: "PKG2",
+    				familyName: "选装包2_沉浸套装",
+    				familyNameEn: "Pkg2_Immersion",
+    				featureId: "1364280027390279682",
+    				featureCode: "PKG201",
+    				featureName: "沉浸套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280026090045511",
+    				familyCode: "PKG1",
+    				familyName: "选装包1_舒适套装",
+    				familyNameEn: "Pkg1_Comfort",
+    				featureId: "1364280027411251202",
+    				featureCode: "PKG101",
+    				featureName: "座享套装",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
     			}
     		]
     	},
     	{
-    		carTypeId: "1358388892260876290",
+    		carTypeId: "1364280027717435393",
     		carTypeCode: "VX1YYYYY_01",
     		carTypeCn: "性能版",
     		carTypeEn: null,
     		orderNo: null,
-    		price: null,
-    		discountPrice: null,
+    		price: "690000.00",
+    		discountPrice: "0.00",
     		constraintRuleList: [
+    			{
+    				constraintRuleCode: "STMA<=>ITMA",
+    				constraintRuleName: "座椅风格：PU/PVC<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
+    				constraintRuleNameEn: "SEAT TRIM: PU/PVC<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
+    			},
+    			{
+    				constraintRuleCode: "PKG201=>PKG101",
+    				constraintRuleName: "沉浸套装_01=>舒适套装_01",
+    				constraintRuleNameEn: "Immersion_01=>Comfort_01"
+    			},
+    			{
+    				constraintRuleCode: "ITRF=>ITMC",
+    				constraintRuleName: "内饰颜色：浅蓝=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
+    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
+    			},
     			{
     				constraintRuleCode: "(STLA&LSS0)=>(S7PL0&S7PR0)",
     				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：无)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
@@ -19697,21 +20578,6 @@
     				constraintRuleCode: "ITRD=>ITMC",
     				constraintRuleName: "内饰颜色：座椅/门板/IP/中控黑色，橙色缝线=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
     				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "ITRF=>ITMC",
-    				constraintRuleName: "内饰颜色：浅蓝=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "STMA<=>ITMA",
-    				constraintRuleName: "座椅风格：PU/PVC<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
-    				constraintRuleNameEn: "SEAT TRIM: PU/PVC<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
-    			},
-    			{
-    				constraintRuleCode: "PKG201=>PKG101",
-    				constraintRuleName: "沉浸套装_01=>舒适套装_01",
-    				constraintRuleNameEn: "Immersion_01=>Comfort_01"
     			},
     			{
     				constraintRuleCode: "STMC<=>ITMB",
@@ -19887,348 +20753,305 @@
     				constraintRuleCode: "(STLA&LSS2)=>(S7PL1&S7PR1)",
     				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：有&二排座椅电动腿托开关 - 右座椅：有)",
     				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "(WWTA|WWTB|WWTC)<|>(WWAE|WWAG)",
+    				constraintRuleName: "(车轮装饰盖：R20 寸，类型1|车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<|>(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)",
+    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20|WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<|>(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)"
     			}
     		],
-    		veFaimlyList: [
+    		veFamilyList: [
     			{
-    				faimlyId: "1358388892470591492",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388892474785793",
-    				featureCode: "ITRC",
-    				featureName: "星曦橙内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388892516728836",
-    				faimlyCode: "PKG1",
-    				faimlyName: "选装包1_舒适套装",
-    				faimlyNameEn: "Pkg1_Comfort",
-    				featureId: "1358388894349639682",
-    				featureCode: "PKG101",
-    				featureName: "座享套装",
-    				featureNameEn: "Comfort_01",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388892520923138",
-    				faimlyCode: "PKG2",
-    				faimlyName: "选装包2_沉浸套装",
-    				faimlyNameEn: "Pkg2_Immersion",
-    				featureId: "1358388894366416897",
-    				featureCode: "PKG201",
-    				featureName: "沉浸套装",
-    				featureNameEn: "Immersion_01",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388892525117441",
-    				faimlyCode: "PKG3",
-    				faimlyName: "选装包3_科技套装",
-    				faimlyNameEn: "Pkg3_Tech",
-    				featureId: "1358388894383194114",
+    				familyId: "1364280028048785592",
+    				familyCode: "PKG3",
+    				familyName: "选装包3_科技套装",
+    				familyNameEn: "Pkg3_Tech",
+    				featureId: "1364280029374185474",
     				featureCode: "PKG301",
     				featureName: "科技套装",
-    				featureNameEn: "Tech_01",
-    				relationShip: "O",
+    				featureNameEn: null,
+    				featureType: "1",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "1"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388892525117443",
-    				faimlyCode: "PKG4",
-    				faimlyName: "选装包4_自动驾驶高阶功能套装",
-    				faimlyNameEn: "Pkg4_HiPhi Pilot",
-    				featureId: "1358388894399971330",
-    				featureCode: "PKG401",
-    				featureName: "HiPhi Pilot全配包",
-    				featureNameEn: "HiPhi Pilot_01",
-    				relationShip: "O",
+    				familyId: "1364280028048785594",
+    				familyCode: "PKG2",
+    				familyName: "选装包2_沉浸套装",
+    				familyNameEn: "Pkg2_Immersion",
+    				featureId: "1364280029399351298",
+    				featureCode: "PKG201",
+    				featureName: "沉浸套装",
+    				featureNameEn: null,
+    				featureType: "1",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "1"
+    				relationShip: "-"
     			},
     			{
-    				faimlyId: "1358388893020045313",
-    				faimlyCode: "WWT",
-    				faimlyName: "车轮装饰盖",
-    				faimlyNameEn: "WHEEL TRIM INSERT-PLASTIC",
-    				featureId: "1358390111364694018",
-    				featureCode: "WWTC",
-    				featureName: "22英寸锋影轮圈",
-    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22",
-    				relationShip: "O",
+    				familyId: "1364280028048785596",
+    				familyCode: "PKG1",
+    				familyName: "选装包1_舒适套装",
+    				familyNameEn: "Pkg1_Comfort",
+    				featureId: "1364280029424517122",
+    				featureCode: "PKG101",
+    				featureName: "座享套装",
+    				featureNameEn: null,
+    				featureType: "1",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388893020045315",
-    				faimlyCode: "WWT",
-    				faimlyName: "车轮装饰盖",
-    				faimlyNameEn: "WHEEL TRIM INSERT-PLASTIC",
-    				featureId: "1358390110492278785",
-    				featureCode: "WWTB",
-    				featureName: "22英寸花影轮圈",
-    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22",
-    				relationShip: "O",
+    				familyId: "1364280028040396970",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280028728262657",
+    				featureCode: "WWTA",
+    				featureName: "20英寸破风轮圈",
+    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "-"
     			},
     			{
-    				faimlyId: "1358388893162651650",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388893166845954",
-    				featureCode: "ITRD",
-    				featureName: "星月黑半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
-    				relationShip: "-",
+    				familyId: "1364280028040396844",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280028539518978",
+    				featureCode: "WWAD",
+    				featureName: "车轮：R22 寸，类型2",
+    				featureNameEn: "WHEEL ALLOY: TYPE 2-R22",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388893179428866",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388893183623170",
-    				featureCode: "BACC",
-    				featureName: "钛金灰",
-    				featureNameEn: "EG1A-MATT GREY METALLIC",
-    				relationShip: "-",
+    				familyId: "1364280028040396844",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280028560490498",
+    				featureCode: "WWAC",
+    				featureName: "车轮：R20 寸，类型1",
+    				featureNameEn: "WHEEL ALLOY: TYPE 1-R20",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "3"
+    				relationShip: "-"
     			},
     			{
-    				faimlyId: "1358388893187817474",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388893192011778",
-    				featureCode: "BACG",
-    				featureName: "丹岩橙",
-    				featureNameEn: "EJ0A-ORANGE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388893221371905",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390112140640258",
-    				featureCode: "WWAG",
-    				featureName: "22英寸7辐枪灰轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388893221371907",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390110878154754",
-    				featureCode: "WWAE",
-    				featureName: "22英寸7辐亮银轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388893242343425",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388893246537730",
-    				featureCode: "ITRA",
-    				featureName: "银河白内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388893250732033",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388893254926338",
-    				featureCode: "ITRB",
-    				featureName: "深空黑内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388893384949761",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388893389144066",
-    				featureCode: "ITRE",
-    				featureName: "星环灰半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388893393338370",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388893397532673",
-    				featureCode: "ITRF",
-    				featureName: "星海蓝半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388893577887748",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388893582082050",
-    				featureCode: "BACA",
-    				featureName: "钻石蓝",
-    				featureNameEn: "EB1A-BLUE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388893586276354",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388893590470657",
-    				featureCode: "BACD",
-    				featureName: "墨晶灰",
-    				featureNameEn: "EG1B-DARK GREY METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388893594664961",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388893598859265",
-    				featureCode: "BACJ",
-    				featureName: "水晶紫",
-    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388893603053569",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388893607247873",
-    				featureCode: "BACL",
-    				featureName: "珍珠白",
-    				featureNameEn: "EW0A-WHITE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388893611442177",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388893615636481",
+    				familyId: "1364280028040396808",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280028384329730",
     				featureCode: "BACM",
     				featureName: "玉石灰",
     				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
-    				relationShip: "O",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "3"
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396810",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280028405301249",
+    				featureCode: "BACL",
+    				featureName: "珍珠白",
+    				featureNameEn: "EW0A-WHITE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396812",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280028426272769",
+    				featureCode: "BACJ",
+    				featureName: "水晶紫",
+    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396814",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280028447244289",
+    				featureCode: "BACD",
+    				featureName: "墨晶灰",
+    				featureNameEn: "EG1B-DARK GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396816",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280028464021506",
+    				featureCode: "BACA",
+    				featureName: "钻石蓝",
+    				featureNameEn: "EB1A-BLUE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396826",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280028484993026",
+    				featureCode: "ITRB",
+    				featureName: "深空黑内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396828",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280028505964545",
+    				featureCode: "ITRA",
+    				featureName: "银河白内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396844",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280028577267714",
+    				featureCode: "WWAE",
+    				featureName: "22英寸7辐亮银轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396844",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280028598239233",
+    				featureCode: "WWAG",
+    				featureName: "22英寸7辐枪灰轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396870",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280028686319617",
+    				featureCode: "BACG",
+    				featureName: "丹岩橙",
+    				featureNameEn: "EJ0A-ORANGE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396970",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280028745039874",
+    				featureCode: "WWTB",
+    				featureName: "22英寸花影轮圈",
+    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028040396970",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280028766011393",
+    				featureCode: "WWTC",
+    				featureName: "22英寸锋影轮圈",
+    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280028048785590",
+    				familyCode: "PKG4",
+    				familyName: "选装包4_自动驾驶高阶功能套装",
+    				familyNameEn: "Pkg4_HiPhi Pilot",
+    				featureId: "1364280029344825346",
+    				featureCode: "PKG401",
+    				featureName: "HiPhi Pilot全配包",
+    				featureNameEn: null,
+    				featureType: "1",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
     			}
     		]
     	},
     	{
-    		carTypeId: "1358388894425137153",
+    		carTypeId: "1364280029709729793",
     		carTypeCode: "VX1YYYYY_02",
     		carTypeCn: "豪华版",
     		carTypeEn: null,
     		orderNo: null,
-    		price: null,
-    		discountPrice: null,
+    		price: "730000.00",
+    		discountPrice: "0.00",
     		constraintRuleList: [
     			{
-    				constraintRuleCode: "WWAD=>WWSG",
-    				constraintRuleName: "车轮：R22 寸，类型2=>车胎：R22 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 2-R22=>WHEEL SIZE: 22 INCH"
+    				constraintRuleCode: "PKG201=>PKG101",
+    				constraintRuleName: "沉浸套装_01=>舒适套装_01",
+    				constraintRuleNameEn: "Immersion_01=>Comfort_01"
     			},
     			{
-    				constraintRuleCode: "CFF4<=>CRF4",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色<=>后排地垫：高级羊毛精编，灰色",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL, GREY"
-    			},
-    			{
-    				constraintRuleCode: "WWAE=>WWSG",
-    				constraintRuleName: "车轮：R22 寸，类型3=>车胎：R22 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22=>WHEEL SIZE: 22 INCH"
-    			},
-    			{
-    				constraintRuleCode: "WWAG=>WWSG",
-    				constraintRuleName: "车轮：R22 寸，类型3，暗色=>车胎：R22 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK=>WHEEL SIZE: 22 INCH"
-    			},
-    			{
-    				constraintRuleCode: "CFF1<=>CRF1",
-    				constraintRuleName: "前排主副驾地垫：有<=>后排地垫：有",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: AVAILABLE<=>COVERING REAR FLOOR MATS, AUX: AVAILABLE"
+    				constraintRuleCode: "STMA<=>ITMA",
+    				constraintRuleName: "座椅风格：PU/PVC<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
+    				constraintRuleNameEn: "SEAT TRIM: PU/PVC<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
     			},
     			{
     				constraintRuleCode: "(STLA&LSS0)=>(S7PL0&S7PR0)",
     				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：无)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
     				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: NOT AVAILABLE)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: NOT AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "(STMD|STME)<=>ITMC",
-    				constraintRuleName: "(座椅风格：半苯胺真皮座椅|座椅风格：半苯胺真皮座椅带创始版标识)<=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
-    				constraintRuleNameEn: "(SEAT TRIM: SEMI ANILINE LEATHER|SEAT TRIM: SEMI ANILINE LEATHER, W FOUNDER EDITITON PATTERN)<=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
     			},
     			{
     				constraintRuleCode: "PKG101<=>(ITFB&LSP2&LSS2&MFS2&MSS1&VFS1&VSS1)",
@@ -20269,16 +21092,6 @@
     				constraintRuleCode: "ITRF=>ITMC",
     				constraintRuleName: "内饰颜色：浅蓝=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
     				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "STMA<=>ITMA",
-    				constraintRuleName: "座椅风格：PU/PVC<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
-    				constraintRuleNameEn: "SEAT TRIM: PU/PVC<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
-    			},
-    			{
-    				constraintRuleCode: "PKG201=>PKG101",
-    				constraintRuleName: "沉浸套装_01=>舒适套装_01",
-    				constraintRuleNameEn: "Immersion_01=>Comfort_01"
     			},
     			{
     				constraintRuleCode: "STMC<=>ITMB",
@@ -20341,9 +21154,39 @@
     				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL"
     			},
     			{
+    				constraintRuleCode: "CFF4<=>CRF4",
+    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色<=>后排地垫：高级羊毛精编，灰色",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL, GREY"
+    			},
+    			{
+    				constraintRuleCode: "CFF1<=>CRF1",
+    				constraintRuleName: "前排主副驾地垫：有<=>后排地垫：有",
+    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: AVAILABLE<=>COVERING REAR FLOOR MATS, AUX: AVAILABLE"
+    			},
+    			{
+    				constraintRuleCode: "(STMD|STME)<=>ITMC",
+    				constraintRuleName: "(座椅风格：半苯胺真皮座椅|座椅风格：半苯胺真皮座椅带创始版标识)<=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
+    				constraintRuleNameEn: "(SEAT TRIM: SEMI ANILINE LEATHER|SEAT TRIM: SEMI ANILINE LEATHER, W FOUNDER EDITITON PATTERN)<=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
+    			},
+    			{
     				constraintRuleCode: "WWAC<=>WWSF",
     				constraintRuleName: "车轮：R20 寸，类型1<=>车胎：R20 寸",
     				constraintRuleNameEn: "WHEEL ALLOY: TYPE 1-R20<=>WHEEL SIZE: 20 INCH"
+    			},
+    			{
+    				constraintRuleCode: "WWAD=>WWSG",
+    				constraintRuleName: "车轮：R22 寸，类型2=>车胎：R22 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 2-R22=>WHEEL SIZE: 22 INCH"
+    			},
+    			{
+    				constraintRuleCode: "WWAE=>WWSG",
+    				constraintRuleName: "车轮：R22 寸，类型3=>车胎：R22 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22=>WHEEL SIZE: 22 INCH"
+    			},
+    			{
+    				constraintRuleCode: "WWAG=>WWSG",
+    				constraintRuleName: "车轮：R22 寸，类型3，暗色=>车胎：R22 寸",
+    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK=>WHEEL SIZE: 22 INCH"
     			},
     			{
     				constraintRuleCode: "EDSB<=>ADMB",
@@ -20424,1320 +21267,293 @@
     				constraintRuleCode: "(STLA&LSS2)=>(S7PL1&S7PR1)",
     				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：有&二排座椅电动腿托开关 - 右座椅：有)",
     				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: AVAILABLE)"
+    			},
+    			{
+    				constraintRuleCode: "(WWTA|WWTB|WWTC)<|>(WWAE|WWAG)",
+    				constraintRuleName: "(车轮装饰盖：R20 寸，类型1|车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<|>(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)",
+    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20|WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<|>(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)"
     			}
     		],
-    		veFaimlyList: [
+    		veFamilyList: [
     			{
-    				faimlyId: "1358388894756487172",
-    				faimlyCode: "PKG1",
-    				faimlyName: "选装包1_舒适套装",
-    				faimlyNameEn: "Pkg1_Comfort",
-    				featureId: "1358388896547454977",
-    				featureCode: "PKG101",
-    				featureName: "座享套装",
-    				featureNameEn: "Comfort_01",
-    				relationShip: "S",
+    				familyId: "1364280030015913997",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280030720557058",
+    				featureCode: "WWTA",
+    				featureName: "20英寸破风轮圈",
+    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "1"
+    				relationShip: "-"
     			},
     			{
-    				faimlyId: "1358388894760681473",
-    				faimlyCode: "PKG2",
-    				faimlyName: "选装包2_沉浸套装",
-    				faimlyNameEn: "Pkg2_Immersion",
-    				featureId: "1358388896564232194",
-    				featureCode: "PKG201",
-    				featureName: "沉浸套装",
-    				featureNameEn: "Immersion_01",
-    				relationShip: "S",
+    				familyId: "1364280030011719782",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280030519230466",
+    				featureCode: "WWAD",
+    				featureName: "车轮：R22 寸，类型2",
+    				featureNameEn: "WHEEL ALLOY: TYPE 2-R22",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "1"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388894760681475",
-    				faimlyCode: "PKG3",
-    				faimlyName: "选装包3_科技套装",
-    				faimlyNameEn: "Pkg3_Tech",
-    				featureId: "1358388896581009409",
-    				featureCode: "PKG301",
-    				featureName: "科技套装",
-    				featureNameEn: "Tech_01",
-    				relationShip: "O",
+    				familyId: "1364280030011719782",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280030536007682",
+    				featureCode: "WWAC",
+    				featureName: "车轮：R20 寸，类型1",
+    				featureNameEn: "WHEEL ALLOY: TYPE 1-R20",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "1"
+    				relationShip: "-"
     			},
     			{
-    				faimlyId: "1358388894764875778",
-    				faimlyCode: "PKG4",
-    				faimlyName: "选装包4_自动驾驶高阶功能套装",
-    				faimlyNameEn: "Pkg4_HiPhi Pilot",
-    				featureId: "1358388896601980929",
-    				featureCode: "PKG401",
-    				featureName: "HiPhi Pilot全配包",
-    				featureNameEn: "HiPhi Pilot_01",
-    				relationShip: "O",
+    				familyId: "1364280030011719740",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280030351458305",
+    				featureCode: "BACM",
+    				featureName: "玉石灰",
+    				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "1"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388895255609345",
-    				faimlyCode: "WWT",
-    				faimlyName: "车轮装饰盖",
-    				faimlyNameEn: "WHEEL TRIM INSERT-PLASTIC",
-    				featureId: "1358390128565534722",
-    				featureCode: "WWTC",
-    				featureName: "22英寸锋影轮圈",
-    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22",
-    				relationShip: "O",
+    				familyId: "1364280030011719742",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280030372429825",
+    				featureCode: "BACL",
+    				featureName: "珍珠白",
+    				featureNameEn: "EW0A-WHITE PEARL",
+    				featureType: "3",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388895255609347",
-    				faimlyCode: "WWT",
-    				faimlyName: "车轮装饰盖",
-    				faimlyNameEn: "WHEEL TRIM INSERT-PLASTIC",
-    				featureId: "1358390127646982145",
+    				familyId: "1364280030011719744",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280030389207042",
+    				featureCode: "BACJ",
+    				featureName: "水晶紫",
+    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280030011719746",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280030405984258",
+    				featureCode: "BACD",
+    				featureName: "墨晶灰",
+    				featureNameEn: "EG1B-DARK GREY METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280030011719748",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280030426955777",
+    				featureCode: "BACA",
+    				featureName: "钻石蓝",
+    				featureNameEn: "EB1A-BLUE METALLIC",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280030011719752",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280030443732994",
+    				featureCode: "ITRC",
+    				featureName: "星曦橙内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280030011719762",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280030464704514",
+    				featureCode: "ITRB",
+    				featureName: "深空黑内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280030011719764",
+    				familyCode: "ITR",
+    				familyName: "内饰颜色",
+    				familyNameEn: "INTERIOR TRIM-COLOR",
+    				featureId: "1364280030481481730",
+    				featureCode: "ITRA",
+    				featureName: "银河白内饰",
+    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
+    				featureType: "4",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280030011719782",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280030577950722",
+    				featureCode: "WWAE",
+    				featureName: "22英寸7辐亮银轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280030011719782",
+    				familyCode: "WWA",
+    				familyName: "车轮",
+    				familyNameEn: "WHEEL ALLOY",
+    				featureId: "1364280030594727938",
+    				featureCode: "WWAG",
+    				featureName: "22英寸7辐枪灰轮圈",
+    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
+    				featureType: "2",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280030011719812",
+    				familyCode: "BAC",
+    				familyName: "车身颜色",
+    				familyNameEn: "APPLIED COATING",
+    				featureId: "1364280030687002625",
+    				featureCode: "BACG",
+    				featureName: "丹岩橙",
+    				featureNameEn: "EJ0A-ORANGE PEARL",
+    				featureType: "3",
+    				price: "0.00",
+    				discountPrice: "",
+    				relationShip: "O"
+    			},
+    			{
+    				familyId: "1364280030015913997",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280030737334273",
     				featureCode: "WWTB",
     				featureName: "22英寸花影轮圈",
     				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22",
-    				relationShip: "O",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388895360466945",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388895364661250",
-    				featureCode: "ITRD",
-    				featureName: "星月黑半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
-    				relationShip: "-",
+    				familyId: "1364280030015913997",
+    				familyCode: "WWT",
+    				familyName: "车轮装饰盖",
+    				familyNameEn: "WHEEL TRIM INSERT-PLASTIC",
+    				featureId: "1364280030754111489",
+    				featureCode: "WWTC",
+    				featureName: "22英寸锋影轮圈",
+    				featureNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22",
+    				featureType: "2",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388895381438466",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388895385632769",
-    				featureCode: "BACC",
-    				featureName: "钛金灰",
-    				featureNameEn: "EG1A-MATT GREY METALLIC",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388895389827074",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388895394021377",
-    				featureCode: "BACG",
-    				featureName: "丹岩橙",
-    				featureNameEn: "EJ0A-ORANGE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388895419187204",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390128301293570",
-    				featureCode: "WWAG",
-    				featureName: "22英寸7辐枪灰轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388895423381506",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390127797977089",
-    				featureCode: "WWAE",
-    				featureName: "22英寸7辐亮银轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388895444353028",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388895448547329",
-    				featureCode: "ITRA",
-    				featureName: "银河白内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388895452741634",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388895456935937",
-    				featureCode: "ITRB",
-    				featureName: "深空黑内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388895578570755",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388895582765058",
-    				featureCode: "ITRE",
-    				featureName: "星环灰半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388895586959362",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388895591153666",
-    				featureCode: "ITRF",
-    				featureName: "星海蓝半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388895737954308",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388895742148609",
-    				featureCode: "ITRC",
-    				featureName: "星曦橙内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388895750537219",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388895754731521",
-    				featureCode: "BACA",
-    				featureName: "钻石蓝",
-    				featureNameEn: "EB1A-BLUE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388895758925826",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388895763120130",
-    				featureCode: "BACD",
-    				featureName: "墨晶灰",
-    				featureNameEn: "EG1B-DARK GREY METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388895767314433",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388895771508738",
-    				featureCode: "BACJ",
-    				featureName: "水晶紫",
-    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388895775703041",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388895779897345",
-    				featureCode: "BACL",
-    				featureName: "珍珠白",
-    				featureNameEn: "EW0A-WHITE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388895784091650",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388895788285953",
-    				featureCode: "BACM",
-    				featureName: "玉石灰",
-    				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			}
-    		]
-    	},
-    	{
-    		carTypeId: "1358388876922306561",
-    		carTypeCode: "VX1_0003_01",
-    		carTypeCn: "旗舰版6座",
-    		carTypeEn: null,
-    		orderNo: null,
-    		price: "733000.00",
-    		discountPrice: "0.00",
-    		constraintRuleList: [
-    			{
-    				constraintRuleCode: "(STLA&LSS0)=>(S7PL0&S7PR0)",
-    				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：无)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
-    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: NOT AVAILABLE)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: NOT AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "PKG101<=>(ITFB&LSP2&LSS2&MFS2&MSS1&VFS1&VSS1)",
-    				constraintRuleName: "舒适套装_01<=>(内饰顶衬:  麂皮，黑色&副驾腿托：电动&二排座椅腿托：电动&一排座椅按摩：多种按摩模式，可OTA升级&二排座椅按摩：有&一排座椅通风：有&二排座椅通风：有)",
-    				constraintRuleNameEn: "Comfort_01<=>(INTERIOR ROOF：SUEDE, BLACK&LEG SUPPORT-PASS: POWER&LEG SUPPORT - 2ND ROW SEAT: POWER&MASSAGE - 1ST ROW SEAT: AVAILABLE, MULTI-MODE, OTA UPGRADE&MASSAGE - 2ND ROW SEAT: AVAILABLE&VENTILATION - 1ST ROW SEAT: AVAILABLE&VENTILATION - 2ND ROW SEAT: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "PKG201<=>(AQS1&DBR1&DIDC&EAS1&HMS1&IFS1&IPL1&PLD1&SASC)",
-    				constraintRuleName: "沉浸套装_01<=>(生化医疗级HEPA高效空气滤芯：有&主驾生物识别：有&副驾显示屏：双屏，触摸&场景音效：有&个人健康管理平台：有&智能香氛发生器：有&仪表两端发光面板：有&前门发光面板:有&扬声器：加强17扬声器)",
-    				constraintRuleNameEn: "Immersion_01<=>(EQUIPMENT - HEPA FILTER: AVAILABLE&DRIVER SIDE BIOMETRIC RECOGNITION: AVAILABLE&DISPLAY INSTRUMENT-PASSAGE SIDE: DUAL, TOUCH SCREEN&EXTERNAL AMPLIFIER-SCENE SOUND: AVAILABLE&HEALTH MANAGEMENT SYSTEM: AVAILABLE&EQUIPMENT - INTELLIGENT FRAGRANCE SYSTEMS: AVAILABLE&ILLUMINATION PANEL - IP ENDS: AVAILABLE&PANEL LAMP - FRT DOOR : AVAILABLE&SPEAKER SYSTEM: ENHANCED AUDIO, 17 SPEAKERS)"
-    			},
-    			{
-    				constraintRuleCode: "PKG301<=>(DLP1&FHLB&FRR1)",
-    				constraintRuleName: "科技套装_01<=>(智能灯光控制：有&前照灯：数字光处理&车外人脸识别进入：有)",
-    				constraintRuleNameEn: "Tech_01<=>(DLP CONTROL: AVAILABLE&HEADLAMPS: DLP&FACE RECOGNITION ENTRY, OUTER: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "PKG401<=>(HDM1&HWA1&ICC1&LLC1&PPF1&TJP1)",
-    				constraintRuleName: "自动驾驶高阶功能套装_01<=>(高精地图：有&高速辅助：有&智能巡航：有&拨杆换道：有&遥控泊车：泊入泊出&交通拥堵代驾（TJP）：有)",
-    				constraintRuleNameEn: "HiPhi Pilot_01<=>(HD MAP: AVAILABLE&HIGHWAY ASSIST: AVAILABLE&INTELLIGENT CRUISE CONTROL：AVAILABLE&SHIFT LEVER LANE CHANGE: AVAILABLE&PILOTED PARKING: RPA&TRAFFIC JAM PILOT: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "PKG301=>PKG101",
-    				constraintRuleName: "科技套装_01=>舒适套装_01",
-    				constraintRuleNameEn: "Tech_01=>Comfort_01"
-    			},
-    			{
-    				constraintRuleCode: "ITRE=>ITMC",
-    				constraintRuleName: "内饰颜色：白+紫色=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "ITRD=>ITMC",
-    				constraintRuleName: "内饰颜色：座椅/门板/IP/中控黑色，橙色缝线=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "ITRF=>ITMC",
-    				constraintRuleName: "内饰颜色：浅蓝=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "STMA<=>ITMA",
-    				constraintRuleName: "座椅风格：PU/PVC<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
-    				constraintRuleNameEn: "SEAT TRIM: PU/PVC<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
-    			},
-    			{
-    				constraintRuleCode: "PKG201=>PKG101",
-    				constraintRuleName: "沉浸套装_01=>舒适套装_01",
-    				constraintRuleNameEn: "Immersion_01=>Comfort_01"
-    			},
-    			{
-    				constraintRuleCode: "STMC<=>ITMB",
-    				constraintRuleName: "座椅风格：软真皮座椅<=>内饰材质：门板/IP/中控 PU+PVC，座椅软皮革",
-    				constraintRuleNameEn: "SEAT TRIM: NAPPA LEATHER<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, NAPPA LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "(WWTB|WWTC)<=>WWAD",
-    				constraintRuleName: "(车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<=>车轮：R22 寸，类型2",
-    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<=>WHEEL ALLOY: TYPE 2-R22"
-    			},
-    			{
-    				constraintRuleCode: "(WWAE|WWAG)<=>MKT001",
-    				constraintRuleName: "(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)<=>车轮悬浮立标",
-    				constraintRuleNameEn: "(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)<=>floating wheel cap"
-    			},
-    			{
-    				constraintRuleCode: "(ITRA|ITRB)<=>ITMA",
-    				constraintRuleName: "(内饰颜色：座椅/门板/IP/中控白色|内饰颜色：座椅/门板/IP/中控黑色)<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER|INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER)<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
-    			},
-    			{
-    				constraintRuleCode: "WWTA<=>WWAC",
-    				constraintRuleName: "车轮装饰盖：R20 寸，类型1<=>车轮：R20 寸，类型1",
-    				constraintRuleNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20<=>WHEEL ALLOY: TYPE 1-R20"
-    			},
-    			{
-    				constraintRuleCode: "CFF3=>(ITRD|ITRF)",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编=>(内饰颜色：座椅/门板/IP/中控黑色，橙色缝线|内饰颜色：浅蓝)",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL=>(INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING|INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)"
-    			},
-    			{
-    				constraintRuleCode: "CFF4=>ITRE",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色=>内饰颜色：白+紫色",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY=>(INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX)"
-    			},
-    			{
-    				constraintRuleCode: "HMS1<=>DBR1",
-    				constraintRuleName: "个人健康管理平台：有<=>主驾生物识别：有",
-    				constraintRuleNameEn: "HEALTH MANAGEMENT SYSTEM: AVAILABLE<=>DRIVER SIDE BIOMETRIC RECOGNITION: AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "FHLB<=>DLP1",
-    				constraintRuleName: "前照灯：数字光处理<=>智能灯光控制：有",
-    				constraintRuleNameEn: "HEADLAMPS: DLP<=>DLP CONTROL: AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "HLS1<|>DLP1",
-    				constraintRuleName: "远近光自动切换：有<|>智能灯光控制：有",
-    				constraintRuleNameEn: "HEADLAMP AUTO SWITCH: AVAILABLE<|>DLP CONTROL: AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "ITRC<=>ITMB",
-    				constraintRuleName: "内饰颜色：座椅橙色，门板/IP/中控黑色<=>内饰材质：门板/IP/中控 PU+PVC，座椅软皮革",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER)<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, NAPPA LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "CFF3<=>CRF3",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编<=>后排地垫：高级羊毛精编",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL"
-    			},
-    			{
-    				constraintRuleCode: "CFF4<=>CRF4",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色<=>后排地垫：高级羊毛精编，灰色",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL, GREY"
-    			},
-    			{
-    				constraintRuleCode: "CFF1<=>CRF1",
-    				constraintRuleName: "前排主副驾地垫：有<=>后排地垫：有",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: AVAILABLE<=>COVERING REAR FLOOR MATS, AUX: AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "(STMD|STME)<=>ITMC",
-    				constraintRuleName: "(座椅风格：半苯胺真皮座椅|座椅风格：半苯胺真皮座椅带创始版标识)<=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
-    				constraintRuleNameEn: "(SEAT TRIM: SEMI ANILINE LEATHER|SEAT TRIM: SEMI ANILINE LEATHER, W FOUNDER EDITITON PATTERN)<=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "WWAC<=>WWSF",
-    				constraintRuleName: "车轮：R20 寸，类型1<=>车胎：R20 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 1-R20<=>WHEEL SIZE: 20 INCH"
-    			},
-    			{
-    				constraintRuleCode: "WWAD=>WWSG",
-    				constraintRuleName: "车轮：R22 寸，类型2=>车胎：R22 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 2-R22=>WHEEL SIZE: 22 INCH"
-    			},
-    			{
-    				constraintRuleCode: "WWAE=>WWSG",
-    				constraintRuleName: "车轮：R22 寸，类型3=>车胎：R22 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22=>WHEEL SIZE: 22 INCH"
-    			},
-    			{
-    				constraintRuleCode: "WWAG=>WWSG",
-    				constraintRuleName: "车轮：R22 寸，类型3，暗色=>车胎：R22 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK=>WHEEL SIZE: 22 INCH"
-    			},
-    			{
-    				constraintRuleCode: "EDSB<=>ADMB",
-    				constraintRuleName: "电驱动系统：后驱，200kw<=>驱动模式：后驱",
-    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: RR, PMSM, 200kw<=>DRIVEN MODE: RWD"
-    			},
-    			{
-    				constraintRuleCode: "EDSC<=>ADME",
-    				constraintRuleName: "电驱动系统：前后驱，200kw<=>驱动模式：全时四驱",
-    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: FRT, RR, PMSM, 200kw<=>DRIVEN MODE: 4WD 全时四驱"
-    			},
-    			{
-    				constraintRuleCode: "LSP0=>P4SL0",
-    				constraintRuleName: "副驾腿托：无=>副驾座椅电动腿托调节开关：无",
-    				constraintRuleNameEn: "LEG SUPPORT-PASS: NOT AVAILABLE=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: NOT AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "LSP2=>P4SL1",
-    				constraintRuleName: "副驾腿托：电动=>副驾座椅电动腿托调节开关：有",
-    				constraintRuleNameEn: "LEG SUPPORT-PASS: POWER=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "MSS0=>(S4ML0&S4MR0)",
-    				constraintRuleName: "二排座椅按摩：无=>(二排座椅按摩 - 左座椅：无&二排座椅按摩 - 右座椅：无)",
-    				constraintRuleNameEn: "MASSAGE - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST MASSAGE - LH: NOT AVAILABLE&2ND ROW ST MASSAGE - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "MSS1=>(S4ML1&S4MR1)",
-    				constraintRuleName: "二排座椅按摩：有=>(二排座椅按摩 - 左座椅：有&二排座椅按摩 - 右座椅：有)",
-    				constraintRuleNameEn: "MASSAGE - 2ND ROW SEAT: AVAILABLE=>(2ND ROW ST MASSAGE - LH: AVAILABLE&2ND ROW ST MASSAGE - RH: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "VSS0=>(S4VL0&S4VR0)",
-    				constraintRuleName: "二排座椅通风：无=>(二排座椅通风 - 左座椅：无&二排座椅通风 - 右座椅：无)",
-    				constraintRuleNameEn: "VENTILATION - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST VENTILATION - LH: NOT AVAILABLE&2ND ROW ST VENTILATION - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "VSS1=>(S4VL1&S4VR1)",
-    				constraintRuleName: "二排座椅通风：有=>(二排座椅通风 - 左座椅：有&二排座椅通风 - 右座椅：有)",
-    				constraintRuleNameEn: "VENTILATION - 2ND ROW SEAT: AVAILABLE=>(2ND ROW ST VENTILATION - LH: AVAILABLE&2ND ROW ST VENTILATION - RH: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "VFS0=>(P4SV0&D4SV0)",
-    				constraintRuleName: "一排座椅通风：无=>(副驾座椅通风：无&主驾座椅通风：无)",
-    				constraintRuleNameEn: "VENTILATION - 1ST ROW SEAT: NOT AVAILABLE=>(PASS ST VENTILATION: NOT AVAILABLE&DRVR ST VENTILATION: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "VFS1=>(P4SV1&D4SV1)",
-    				constraintRuleName: "一排座椅通风：有=>(副驾座椅通风：有&主驾座椅通风：有)",
-    				constraintRuleNameEn: "VENTILATION - 1ST ROW SEAT: AVAILABLE=>(PASS ST VENTILATION: AVAILABLE&DRVR ST VENTILATION: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "MFS0=>(D4SM0&P4SM0)",
-    				constraintRuleName: "一排座椅按摩：无=>(主驾座椅按摩：无&副驾座椅按摩：无)",
-    				constraintRuleNameEn: "MASSAGE - 1ST ROW SEAT: NOT AVAILABLE=>(DRVR ST MASSAGE: NOT AVAILABLE&PASS ST MASSAGE: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "LSS0=>(S4PL0&S4PR0)",
-    				constraintRuleName: "二排座椅腿托：无=>(二排座椅腿托 - 左座椅：无&二排座椅腿托 - 右座椅：无)",
-    				constraintRuleNameEn: "LEG SUPPORT - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST LEG SUPPORT - LH: NOT AVAILABLE&2ND ROW ST LEG SUPPORT - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "MFS2=>(D4SM1&P4SM1)",
-    				constraintRuleName: "一排座椅按摩：多种按摩模式，可OTA升级=>(主驾座椅按摩：有&副驾座椅按摩：有)",
-    				constraintRuleNameEn: "MASSAGE - 1ST ROW SEAT: AVAILABLE, MULTI-MODE, OTA UPGRADE=>(DRVR ST MASSAGE: AVAILABLE&PASS ST MASSAGE: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "LSS2=>(S4PL2&S4PR2)",
-    				constraintRuleName: "二排座椅腿托：电动=>(二排座椅腿托 - 左座椅：电动&二排座椅腿托 - 右座椅：电动)",
-    				constraintRuleNameEn: "LEG SUPPORT - 2ND ROW SEAT: POWER=>(2ND ROW ST LEG SUPPORT - LH: POWER&2ND ROW ST LEG SUPPORT - RH: POWER)"
-    			},
-    			{
-    				constraintRuleCode: "(STLC&LSS2)=>(S7PL0&S7PR0)",
-    				constraintRuleName: "(座位布置：2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
-    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: NOT AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "(STLA&LSS2)=>(S7PL1&S7PR1)",
-    				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：有&二排座椅电动腿托开关 - 右座椅：有)",
-    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: AVAILABLE)"
-    			}
-    		],
-    		veFaimlyList: [
-    			{
-    				faimlyId: "1358388877400457218",
-    				faimlyCode: "PKG1",
-    				faimlyName: "选装包1_舒适套装",
-    				faimlyNameEn: "Pkg1_Comfort",
-    				featureId: "1358388880017702914",
-    				featureCode: "PKG101",
-    				featureName: "座享套装",
-    				featureNameEn: "Comfort_01",
-    				relationShip: "S",
-    				price: "20000.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388877438205954",
-    				faimlyCode: "PKG2",
-    				faimlyName: "选装包2_沉浸套装",
-    				faimlyNameEn: "Pkg2_Immersion",
-    				featureId: "1358388880038674434",
-    				featureCode: "PKG201",
-    				featureName: "沉浸套装",
-    				featureNameEn: "Immersion_01",
-    				relationShip: "S",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388877442400257",
-    				faimlyCode: "PKG3",
-    				faimlyName: "选装包3_科技套装",
-    				faimlyNameEn: "Pkg3_Tech",
-    				featureId: "1358388880055451649",
-    				featureCode: "PKG301",
-    				featureName: "科技套装",
-    				featureNameEn: "Tech_01",
-    				relationShip: "S",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388877446594562",
-    				faimlyCode: "PKG4",
-    				faimlyName: "选装包4_自动驾驶高阶功能套装",
-    				faimlyNameEn: "Pkg4_HiPhi Pilot",
-    				featureId: "1358388880068034562",
+    				familyId: "1364280030020108508",
+    				familyCode: "PKG4",
+    				familyName: "选装包4_自动驾驶高阶功能套装",
+    				familyNameEn: "Pkg4_HiPhi Pilot",
+    				featureId: "1364280031198707713",
     				featureCode: "PKG401",
     				featureName: "HiPhi Pilot全配包",
-    				featureNameEn: "HiPhi Pilot_01",
-    				relationShip: "S",
-    				price: "10000.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388877513703425",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390126992670722",
-    				featureCode: "WWAE",
-    				featureName: "22英寸7辐亮银轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
-    				relationShip: "O",
-    				price: "10000.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388877517897730",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390126929756161",
-    				featureCode: "WWAG",
-    				featureName: "22英寸7辐枪灰轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
-    				relationShip: "O",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388877555646465",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388877559840770",
-    				featureCode: "ITRC",
-    				featureName: "星曦橙内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER",
-    				relationShip: "-",
+    				featureNameEn: null,
+    				featureType: "1",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388877568229378",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388877572423681",
-    				featureCode: "ITRA",
-    				featureName: "银河白内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388877576617985",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388877580812289",
-    				featureCode: "ITRB",
-    				featureName: "深空黑内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388877589200898",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388877589200900",
-    				featureCode: "ITRD",
-    				featureName: "星月黑半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
-    				relationShip: "O",
-    				price: "3000.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388877601783809",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388877601783811",
-    				featureCode: "ITRE",
-    				featureName: "星环灰半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
-    				relationShip: "O",
-    				price: "2000.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388877794721793",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388877798916097",
-    				featureCode: "ITRF",
-    				featureName: "星海蓝半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388878826520578",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388878830714882",
-    				featureCode: "BACC",
-    				featureName: "钛金灰",
-    				featureNameEn: "EG1A-MATT GREY METALLIC",
-    				relationShip: "-",
-    				price: "15000.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388878834909185",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388878839103490",
-    				featureCode: "BACA",
-    				featureName: "钻石蓝",
-    				featureNameEn: "EB1A-BLUE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388878843297794",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388878847492098",
-    				featureCode: "BACD",
-    				featureName: "墨晶灰",
-    				featureNameEn: "EG1B-DARK GREY METALLIC",
-    				relationShip: "O",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388878855880705",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388878860075010",
-    				featureCode: "BACG",
-    				featureName: "丹岩橙",
-    				featureNameEn: "EJ0A-ORANGE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388878864269314",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388878868463617",
-    				featureCode: "BACJ",
-    				featureName: "水晶紫",
-    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388878872657922",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388878876852226",
-    				featureCode: "BACL",
-    				featureName: "珍珠白",
-    				featureNameEn: "EW0A-WHITE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388878881046530",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388878885240833",
-    				featureCode: "BACM",
-    				featureName: "玉石灰",
-    				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
-    				relationShip: "O",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			}
-    		]
-    	},
-    	{
-    		carTypeId: "1358388885147336705",
-    		carTypeCode: "VX1_0006_01",
-    		carTypeCn: "旗舰版4座",
-    		carTypeEn: null,
-    		orderNo: null,
-    		price: "825000.00",
-    		discountPrice: "0.00",
-    		constraintRuleList: [
-    			{
-    				constraintRuleCode: "CFF1<=>CRF1",
-    				constraintRuleName: "前排主副驾地垫：有<=>后排地垫：有",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: AVAILABLE<=>COVERING REAR FLOOR MATS, AUX: AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "HLS1<|>DLP1",
-    				constraintRuleName: "远近光自动切换：有<|>智能灯光控制：有",
-    				constraintRuleNameEn: "HEADLAMP AUTO SWITCH: AVAILABLE<|>DLP CONTROL: AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "(STLA&LSS0)=>(S7PL0&S7PR0)",
-    				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：无)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
-    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: NOT AVAILABLE)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: NOT AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "PKG101<=>(ITFB&LSP2&LSS2&MFS2&MSS1&VFS1&VSS1)",
-    				constraintRuleName: "舒适套装_01<=>(内饰顶衬:  麂皮，黑色&副驾腿托：电动&二排座椅腿托：电动&一排座椅按摩：多种按摩模式，可OTA升级&二排座椅按摩：有&一排座椅通风：有&二排座椅通风：有)",
-    				constraintRuleNameEn: "Comfort_01<=>(INTERIOR ROOF：SUEDE, BLACK&LEG SUPPORT-PASS: POWER&LEG SUPPORT - 2ND ROW SEAT: POWER&MASSAGE - 1ST ROW SEAT: AVAILABLE, MULTI-MODE, OTA UPGRADE&MASSAGE - 2ND ROW SEAT: AVAILABLE&VENTILATION - 1ST ROW SEAT: AVAILABLE&VENTILATION - 2ND ROW SEAT: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "PKG201<=>(AQS1&DBR1&DIDC&EAS1&HMS1&IFS1&IPL1&PLD1&SASC)",
-    				constraintRuleName: "沉浸套装_01<=>(生化医疗级HEPA高效空气滤芯：有&主驾生物识别：有&副驾显示屏：双屏，触摸&场景音效：有&个人健康管理平台：有&智能香氛发生器：有&仪表两端发光面板：有&前门发光面板:有&扬声器：加强17扬声器)",
-    				constraintRuleNameEn: "Immersion_01<=>(EQUIPMENT - HEPA FILTER: AVAILABLE&DRIVER SIDE BIOMETRIC RECOGNITION: AVAILABLE&DISPLAY INSTRUMENT-PASSAGE SIDE: DUAL, TOUCH SCREEN&EXTERNAL AMPLIFIER-SCENE SOUND: AVAILABLE&HEALTH MANAGEMENT SYSTEM: AVAILABLE&EQUIPMENT - INTELLIGENT FRAGRANCE SYSTEMS: AVAILABLE&ILLUMINATION PANEL - IP ENDS: AVAILABLE&PANEL LAMP - FRT DOOR : AVAILABLE&SPEAKER SYSTEM: ENHANCED AUDIO, 17 SPEAKERS)"
-    			},
-    			{
-    				constraintRuleCode: "PKG301<=>(DLP1&FHLB&FRR1)",
-    				constraintRuleName: "科技套装_01<=>(智能灯光控制：有&前照灯：数字光处理&车外人脸识别进入：有)",
-    				constraintRuleNameEn: "Tech_01<=>(DLP CONTROL: AVAILABLE&HEADLAMPS: DLP&FACE RECOGNITION ENTRY, OUTER: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "PKG401<=>(HDM1&HWA1&ICC1&LLC1&PPF1&TJP1)",
-    				constraintRuleName: "自动驾驶高阶功能套装_01<=>(高精地图：有&高速辅助：有&智能巡航：有&拨杆换道：有&遥控泊车：泊入泊出&交通拥堵代驾（TJP）：有)",
-    				constraintRuleNameEn: "HiPhi Pilot_01<=>(HD MAP: AVAILABLE&HIGHWAY ASSIST: AVAILABLE&INTELLIGENT CRUISE CONTROL：AVAILABLE&SHIFT LEVER LANE CHANGE: AVAILABLE&PILOTED PARKING: RPA&TRAFFIC JAM PILOT: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "PKG301=>PKG101",
-    				constraintRuleName: "科技套装_01=>舒适套装_01",
-    				constraintRuleNameEn: "Tech_01=>Comfort_01"
-    			},
-    			{
-    				constraintRuleCode: "ITRE=>ITMC",
-    				constraintRuleName: "内饰颜色：白+紫色=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "ITRD=>ITMC",
-    				constraintRuleName: "内饰颜色：座椅/门板/IP/中控黑色，橙色缝线=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "ITRF=>ITMC",
-    				constraintRuleName: "内饰颜色：浅蓝=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "STMA<=>ITMA",
-    				constraintRuleName: "座椅风格：PU/PVC<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
-    				constraintRuleNameEn: "SEAT TRIM: PU/PVC<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
-    			},
-    			{
-    				constraintRuleCode: "PKG201=>PKG101",
-    				constraintRuleName: "沉浸套装_01=>舒适套装_01",
-    				constraintRuleNameEn: "Immersion_01=>Comfort_01"
-    			},
-    			{
-    				constraintRuleCode: "STMC<=>ITMB",
-    				constraintRuleName: "座椅风格：软真皮座椅<=>内饰材质：门板/IP/中控 PU+PVC，座椅软皮革",
-    				constraintRuleNameEn: "SEAT TRIM: NAPPA LEATHER<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, NAPPA LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "(WWTB|WWTC)<=>WWAD",
-    				constraintRuleName: "(车轮装饰盖：R22 寸，类型1|车轮装饰盖：R22 寸，类型2)<=>车轮：R22 寸，类型2",
-    				constraintRuleNameEn: "(WHEEL TRIM INSERT-PLASTIC: TYPE 1-R22|WHEEL TRIM INSERT-PLASTIC: TYPE 2-R22)<=>WHEEL ALLOY: TYPE 2-R22"
-    			},
-    			{
-    				constraintRuleCode: "(WWAE|WWAG)<=>MKT001",
-    				constraintRuleName: "(车轮：R22 寸，类型3|车轮：R22 寸，类型3，暗色)<=>车轮悬浮立标",
-    				constraintRuleNameEn: "(WHEEL ALLOY: TYPE 3-R22|WHEEL ALLOY: TYPE 3-R22, BLACK)<=>floating wheel cap"
-    			},
-    			{
-    				constraintRuleCode: "(ITRA|ITRB)<=>ITMA",
-    				constraintRuleName: "(内饰颜色：座椅/门板/IP/中控白色|内饰颜色：座椅/门板/IP/中控黑色)<=>内饰材质：门板/IP/中控 PU+PVC，座椅PU",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER|INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER)<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, PU SEAT"
-    			},
-    			{
-    				constraintRuleCode: "WWTA<=>WWAC",
-    				constraintRuleName: "车轮装饰盖：R20 寸，类型1<=>车轮：R20 寸，类型1",
-    				constraintRuleNameEn: "WHEEL TRIM INSERT-PLASTIC: TYPE 1-R20<=>WHEEL ALLOY: TYPE 1-R20"
-    			},
-    			{
-    				constraintRuleCode: "CFF3=>(ITRD|ITRF)",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编=>(内饰颜色：座椅/门板/IP/中控黑色，橙色缝线|内饰颜色：浅蓝)",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL=>(INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING|INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX)"
-    			},
-    			{
-    				constraintRuleCode: "CFF4=>ITRE",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色=>内饰颜色：白+紫色",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY=>(INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX)"
-    			},
-    			{
-    				constraintRuleCode: "HMS1<=>DBR1",
-    				constraintRuleName: "个人健康管理平台：有<=>主驾生物识别：有",
-    				constraintRuleNameEn: "HEALTH MANAGEMENT SYSTEM: AVAILABLE<=>DRIVER SIDE BIOMETRIC RECOGNITION: AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "FHLB<=>DLP1",
-    				constraintRuleName: "前照灯：数字光处理<=>智能灯光控制：有",
-    				constraintRuleNameEn: "HEADLAMPS: DLP<=>DLP CONTROL: AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "ITRC<=>ITMB",
-    				constraintRuleName: "内饰颜色：座椅橙色，门板/IP/中控黑色<=>内饰材质：门板/IP/中控 PU+PVC，座椅软皮革",
-    				constraintRuleNameEn: "(INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER)<=>INTERIOR MAIN MATERIAL:  PU+PVC COVER, NAPPA LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "CFF3<=>CRF3",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编<=>后排地垫：高级羊毛精编",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL"
-    			},
-    			{
-    				constraintRuleCode: "CFF4<=>CRF4",
-    				constraintRuleName: "前排主副驾地垫：高级羊毛精编，灰色<=>后排地垫：高级羊毛精编，灰色",
-    				constraintRuleNameEn: "COVERING FRONT FLOOR MATS, AUX: REFINED WOOL, GREY<=>COVERING REAR FLOOR MATS, AUX: REFINED WOOL, GREY"
-    			},
-    			{
-    				constraintRuleCode: "(STMD|STME)<=>ITMC",
-    				constraintRuleName: "(座椅风格：半苯胺真皮座椅|座椅风格：半苯胺真皮座椅带创始版标识)<=>内饰材质：门板/IP/中控 PU+PVC，座椅半苯胺真皮",
-    				constraintRuleNameEn: "(SEAT TRIM: SEMI ANILINE LEATHER|SEAT TRIM: SEMI ANILINE LEATHER, W FOUNDER EDITITON PATTERN)<=>INTERIOR MAIN MATERIAL: PU+PVC COVER, SEMI-ANILINE LEATHER SEAT"
-    			},
-    			{
-    				constraintRuleCode: "WWAC<=>WWSF",
-    				constraintRuleName: "车轮：R20 寸，类型1<=>车胎：R20 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 1-R20<=>WHEEL SIZE: 20 INCH"
-    			},
-    			{
-    				constraintRuleCode: "WWAD=>WWSG",
-    				constraintRuleName: "车轮：R22 寸，类型2=>车胎：R22 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 2-R22=>WHEEL SIZE: 22 INCH"
-    			},
-    			{
-    				constraintRuleCode: "WWAE=>WWSG",
-    				constraintRuleName: "车轮：R22 寸，类型3=>车胎：R22 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22=>WHEEL SIZE: 22 INCH"
-    			},
-    			{
-    				constraintRuleCode: "WWAG=>WWSG",
-    				constraintRuleName: "车轮：R22 寸，类型3，暗色=>车胎：R22 寸",
-    				constraintRuleNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK=>WHEEL SIZE: 22 INCH"
-    			},
-    			{
-    				constraintRuleCode: "EDSB<=>ADMB",
-    				constraintRuleName: "电驱动系统：后驱，200kw<=>驱动模式：后驱",
-    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: RR, PMSM, 200kw<=>DRIVEN MODE: RWD"
-    			},
-    			{
-    				constraintRuleCode: "EDSC<=>ADME",
-    				constraintRuleName: "电驱动系统：前后驱，200kw<=>驱动模式：全时四驱",
-    				constraintRuleNameEn: "E-DRIVE SYSTEM POWER: FRT, RR, PMSM, 200kw<=>DRIVEN MODE: 4WD 全时四驱"
-    			},
-    			{
-    				constraintRuleCode: "LSP0=>P4SL0",
-    				constraintRuleName: "副驾腿托：无=>副驾座椅电动腿托调节开关：无",
-    				constraintRuleNameEn: "LEG SUPPORT-PASS: NOT AVAILABLE=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: NOT AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "LSP2=>P4SL1",
-    				constraintRuleName: "副驾腿托：电动=>副驾座椅电动腿托调节开关：有",
-    				constraintRuleNameEn: "LEG SUPPORT-PASS: POWER=>PASS ST ADJUST SWITCH - PWR LEG SUPPORT: AVAILABLE"
-    			},
-    			{
-    				constraintRuleCode: "MSS0=>(S4ML0&S4MR0)",
-    				constraintRuleName: "二排座椅按摩：无=>(二排座椅按摩 - 左座椅：无&二排座椅按摩 - 右座椅：无)",
-    				constraintRuleNameEn: "MASSAGE - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST MASSAGE - LH: NOT AVAILABLE&2ND ROW ST MASSAGE - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "MSS1=>(S4ML1&S4MR1)",
-    				constraintRuleName: "二排座椅按摩：有=>(二排座椅按摩 - 左座椅：有&二排座椅按摩 - 右座椅：有)",
-    				constraintRuleNameEn: "MASSAGE - 2ND ROW SEAT: AVAILABLE=>(2ND ROW ST MASSAGE - LH: AVAILABLE&2ND ROW ST MASSAGE - RH: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "VSS0=>(S4VL0&S4VR0)",
-    				constraintRuleName: "二排座椅通风：无=>(二排座椅通风 - 左座椅：无&二排座椅通风 - 右座椅：无)",
-    				constraintRuleNameEn: "VENTILATION - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST VENTILATION - LH: NOT AVAILABLE&2ND ROW ST VENTILATION - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "VSS1=>(S4VL1&S4VR1)",
-    				constraintRuleName: "二排座椅通风：有=>(二排座椅通风 - 左座椅：有&二排座椅通风 - 右座椅：有)",
-    				constraintRuleNameEn: "VENTILATION - 2ND ROW SEAT: AVAILABLE=>(2ND ROW ST VENTILATION - LH: AVAILABLE&2ND ROW ST VENTILATION - RH: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "VFS0=>(P4SV0&D4SV0)",
-    				constraintRuleName: "一排座椅通风：无=>(副驾座椅通风：无&主驾座椅通风：无)",
-    				constraintRuleNameEn: "VENTILATION - 1ST ROW SEAT: NOT AVAILABLE=>(PASS ST VENTILATION: NOT AVAILABLE&DRVR ST VENTILATION: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "VFS1=>(P4SV1&D4SV1)",
-    				constraintRuleName: "一排座椅通风：有=>(副驾座椅通风：有&主驾座椅通风：有)",
-    				constraintRuleNameEn: "VENTILATION - 1ST ROW SEAT: AVAILABLE=>(PASS ST VENTILATION: AVAILABLE&DRVR ST VENTILATION: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "MFS0=>(D4SM0&P4SM0)",
-    				constraintRuleName: "一排座椅按摩：无=>(主驾座椅按摩：无&副驾座椅按摩：无)",
-    				constraintRuleNameEn: "MASSAGE - 1ST ROW SEAT: NOT AVAILABLE=>(DRVR ST MASSAGE: NOT AVAILABLE&PASS ST MASSAGE: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "LSS0=>(S4PL0&S4PR0)",
-    				constraintRuleName: "二排座椅腿托：无=>(二排座椅腿托 - 左座椅：无&二排座椅腿托 - 右座椅：无)",
-    				constraintRuleNameEn: "LEG SUPPORT - 2ND ROW SEAT: NOT AVAILABLE=>(2ND ROW ST LEG SUPPORT - LH: NOT AVAILABLE&2ND ROW ST LEG SUPPORT - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "MFS2=>(D4SM1&P4SM1)",
-    				constraintRuleName: "一排座椅按摩：多种按摩模式，可OTA升级=>(主驾座椅按摩：有&副驾座椅按摩：有)",
-    				constraintRuleNameEn: "MASSAGE - 1ST ROW SEAT: AVAILABLE, MULTI-MODE, OTA UPGRADE=>(DRVR ST MASSAGE: AVAILABLE&PASS ST MASSAGE: AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "LSS2=>(S4PL2&S4PR2)",
-    				constraintRuleName: "二排座椅腿托：电动=>(二排座椅腿托 - 左座椅：电动&二排座椅腿托 - 右座椅：电动)",
-    				constraintRuleNameEn: "LEG SUPPORT - 2ND ROW SEAT: POWER=>(2ND ROW ST LEG SUPPORT - LH: POWER&2ND ROW ST LEG SUPPORT - RH: POWER)"
-    			},
-    			{
-    				constraintRuleCode: "(STLC&LSS2)=>(S7PL0&S7PR0)",
-    				constraintRuleName: "(座位布置：2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：无&二排座椅电动腿托开关 - 右座椅：无)",
-    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: NOT AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: NOT AVAILABLE)"
-    			},
-    			{
-    				constraintRuleCode: "(STLA&LSS2)=>(S7PL1&S7PR1)",
-    				constraintRuleName: "(座位布置：2-2-2&二排座椅腿托：电动)=>(二排座椅电动腿托开关 - 左座椅：有&二排座椅电动腿托开关 - 右座椅：有)",
-    				constraintRuleNameEn: "(SEAT LAYOUT: 2-2-2&LEG SUPPORT - 2ND ROW SEAT: POWER)=>(2ND ROW ST PWR LEG SUPPORT SWITCH - LH: AVAILABLE&2ND ROW ST PWR LEG SUPPORT SWITCH - RH: AVAILABLE)"
-    			}
-    		],
-    		veFaimlyList: [
-    			{
-    				faimlyId: "1358388885373829121",
-    				faimlyCode: "PKG1",
-    				faimlyName: "选装包1_舒适套装",
-    				faimlyNameEn: "Pkg1_Comfort",
-    				featureId: "1358388887559061506",
-    				featureCode: "PKG101",
-    				featureName: "座享套装",
-    				featureNameEn: "Comfort_01",
-    				relationShip: "S",
-    				price: "15000.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388885373829123",
-    				faimlyCode: "PKG2",
-    				faimlyName: "选装包2_沉浸套装",
-    				faimlyNameEn: "Pkg2_Immersion",
-    				featureId: "1358388887580033025",
-    				featureCode: "PKG201",
-    				featureName: "沉浸套装",
-    				featureNameEn: "Immersion_01",
-    				relationShip: "S",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388885378023426",
-    				faimlyCode: "PKG3",
-    				faimlyName: "选装包3_科技套装",
-    				faimlyNameEn: "Pkg3_Tech",
-    				featureId: "1358388887601004546",
+    				familyId: "1364280030020108510",
+    				familyCode: "PKG3",
+    				familyName: "选装包3_科技套装",
+    				familyNameEn: "Pkg3_Tech",
+    				featureId: "1364280031223873537",
     				featureCode: "PKG301",
     				featureName: "科技套装",
-    				featureNameEn: "Tech_01",
-    				relationShip: "S",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388885382217730",
-    				faimlyCode: "PKG4",
-    				faimlyName: "选装包4_自动驾驶高阶功能套装",
-    				faimlyNameEn: "Pkg4_HiPhi Pilot",
-    				featureId: "1358388887621976065",
-    				featureCode: "PKG401",
-    				featureName: "HiPhi Pilot全配包",
-    				featureNameEn: "HiPhi Pilot_01",
-    				relationShip: "S",
-    				price: "15000.00",
-    				discountPrice: "",
-    				featureType: "1"
-    			},
-    			{
-    				faimlyId: "1358388885386412033",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388885390606337",
-    				featureCode: "ITRD",
-    				featureName: "星月黑半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER, ORANGE STITCHING&PIPING",
-    				relationShip: "O",
-    				price: "3000.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388885394800642",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388885398994946",
-    				featureCode: "ITRE",
-    				featureName: "星环灰半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT PRUPLE SEAT& PANEL COVER , LUX",
-    				relationShip: "O",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388885403189250",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388885407383553",
-    				featureCode: "ITRF",
-    				featureName: "星海蓝半苯胺内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT BLUE SEAT& PANEL COVER , LUX",
-    				relationShip: "S",
+    				featureNameEn: null,
+    				featureType: "1",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "O"
     			},
     			{
-    				faimlyId: "1358388885411577857",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388885415772162",
-    				featureCode: "ITRA",
-    				featureName: "银河白内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：LIGHT SEAT& PANEL COVER",
-    				relationShip: "-",
+    				familyId: "1364280030024302594",
+    				familyCode: "PKG2",
+    				familyName: "选装包2_沉浸套装",
+    				familyNameEn: "Pkg2_Immersion",
+    				featureId: "1364280031249039362",
+    				featureCode: "PKG201",
+    				featureName: "沉浸套装",
+    				featureNameEn: null,
+    				featureType: "1",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
+    				relationShip: "S"
     			},
     			{
-    				faimlyId: "1358388885419966465",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388885424160769",
-    				featureCode: "ITRB",
-    				featureName: "深空黑内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：BLACK SEAT& PANEL COVER",
-    				relationShip: "-",
+    				familyId: "1364280030024302596",
+    				familyCode: "PKG1",
+    				familyName: "选装包1_舒适套装",
+    				familyNameEn: "Pkg1_Comfort",
+    				featureId: "1364280031274205185",
+    				featureCode: "PKG101",
+    				featureName: "座享套装",
+    				featureNameEn: null,
+    				featureType: "1",
     				price: "0.00",
     				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388885570961409",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388885575155714",
-    				featureCode: "BACC",
-    				featureName: "钛金灰",
-    				featureNameEn: "EG1A-MATT GREY METALLIC",
-    				relationShip: "O",
-    				price: "15000.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388885579350018",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388885583544322",
-    				featureCode: "BACA",
-    				featureName: "钻石蓝",
-    				featureNameEn: "EB1A-BLUE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388885587738625",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388885591932930",
-    				featureCode: "BACD",
-    				featureName: "墨晶灰",
-    				featureNameEn: "EG1B-DARK GREY METALLIC",
-    				relationShip: "O",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388885596127233",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388885600321537",
-    				featureCode: "BACG",
-    				featureName: "丹岩橙",
-    				featureNameEn: "EJ0A-ORANGE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388885604515842",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388885608710145",
-    				featureCode: "BACJ",
-    				featureName: "水晶紫",
-    				featureNameEn: "EP1A-DARK PURPLE METALLIC",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388885612904449",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388885617098754",
-    				featureCode: "BACL",
-    				featureName: "珍珠白",
-    				featureNameEn: "EW0A-WHITE PEARL",
-    				relationShip: "O",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388885625487362",
-    				faimlyCode: "BAC",
-    				faimlyName: "车身颜色",
-    				faimlyNameEn: "APPLIED COATING",
-    				featureId: "1358388885625487364",
-    				featureCode: "BACM",
-    				featureName: "玉石灰",
-    				featureNameEn: "EG1E-CONCRETE GREY METALLIC",
-    				relationShip: "O",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "3"
-    			},
-    			{
-    				faimlyId: "1358388885965225986",
-    				faimlyCode: "ITR",
-    				faimlyName: "内饰颜色",
-    				faimlyNameEn: "INTERIOR TRIM-COLOR",
-    				featureId: "1358388885969420289",
-    				featureCode: "ITRC",
-    				featureName: "星曦橙内饰",
-    				featureNameEn: "INTERIOR TRIM-COLOR：ORANGE SEAT& BLACK PANEL COVER",
-    				relationShip: "-",
-    				price: "0.00",
-    				discountPrice: "",
-    				featureType: "4"
-    			},
-    			{
-    				faimlyId: "1358388886061694978",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390127240134657",
-    				featureCode: "WWAE",
-    				featureName: "22英寸7辐亮银轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22",
-    				relationShip: "O",
-    				price: "10000.00",
-    				discountPrice: "",
-    				featureType: "2"
-    			},
-    			{
-    				faimlyId: "1358388886061694980",
-    				faimlyCode: "WWA",
-    				faimlyName: "车轮",
-    				faimlyNameEn: "WHEEL ALLOY",
-    				featureId: "1358390127173025794",
-    				featureCode: "WWAG",
-    				featureName: "22英寸7辐枪灰轮圈",
-    				featureNameEn: "WHEEL ALLOY: TYPE 3-R22, BLACK",
-    				relationShip: "O",
-    				price: "5000.00",
-    				discountPrice: "",
-    				featureType: "2"
+    				relationShip: "S"
     			}
     		]
     	}
@@ -21747,7 +21563,7 @@
      * @LastEditors  : BillySong
      */
     var p = new SelectModelPrase(json);
-    // console.log('model',p.getModels())
+    console.log('model', p.getModels());
     // p.setModel('1358388880135143426') //创始版6座
     // p.setModel('1358388887659724801') //标准版
     // p.setModel('1358388882576228353')//创始版4座
@@ -21755,8 +21571,8 @@
     // p.setModel('1358388892260876290')//性能版
     // p.setModel('1358388894425137153')//豪华版
     // p.setModel('1358388876922306561')//旗舰版6座
-    p.setModel(''); //旗舰版4座
-    p.PKG = [];
+    // p.setModel('')//旗舰版4座
+    // p.PKG=[]
     // console.log('BAC',p.BAC)
     // console.log('CRT',p.CRT)
     // console.log('ITR', p.ITR)

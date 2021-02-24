@@ -72,7 +72,7 @@
             [['PKG', 'PKG1', 'PKG2', 'PKG3', 'PKG4'], []],
         ]);
         var _loop_1 = function (item) {
-            Array.from(groupMap.keys()).forEach(function (key) { return key.includes(item.faimlyCode)
+            Array.from(groupMap.keys()).forEach(function (key) { return key.includes(item.familyCode)
                 &&
                     groupMap.get(key).push(item); });
         };
@@ -131,7 +131,7 @@
         return addSymbol ? __spread(tem, [tar[2]]) : tem;
     }
     function filterRule (model) {
-        var rules = model.constraintRuleList, ves = model.veFaimlyList;
+        var rules = model.constraintRuleList, ves = model.veFamilyList;
         var tar = [];
         for (var i = 0; i < rules.length; i++) {
             var rule = rules[i].constraintRuleCode;
@@ -17417,7 +17417,7 @@
             this.models = [];
             this.effectRule = []; // 生效的约束规则
             this.models = json.map(function (m) {
-                _this.featrueG.set(m, putInGroup(m.veFaimlyList));
+                _this.featrueG.set(m, putInGroup(m.veFamilyList));
                 return m;
             });
         }
@@ -17425,9 +17425,9 @@
             return base.filter(function (i) { return i.relationShip === relationShipSym; });
         };
         // 获取相关特征组
-        SelectModelPrase.prototype.getBasefeatrue = function (faimlyCode) {
-            if (faimlyCode) {
-                var k = __spread(this.featrueG.get(this.selectModel).keys()).find(function (i) { return i.includes(faimlyCode); });
+        SelectModelPrase.prototype.getBasefeatrue = function (familyCode) {
+            if (familyCode) {
+                var k = __spread(this.featrueG.get(this.selectModel).keys()).find(function (i) { return i.includes(familyCode); });
                 return this.featrueG.get(this.selectModel).get(k) || [];
             }
             else {
@@ -17435,11 +17435,11 @@
             }
         };
         // 获取相关特征组,过滤选配信息
-        SelectModelPrase.prototype.getfeatrue = function (faimlyCode) {
+        SelectModelPrase.prototype.getfeatrue = function (familyCode) {
             if (!this.selectModel)
                 return [];
-            var base = this.getBasefeatrue(faimlyCode);
-            this[faimlyCode + 'OptDisable'] = this.filterRelationShip(base, '-').map(function (i) { return i.featureCode; });
+            var base = this.getBasefeatrue(familyCode);
+            this[familyCode + 'OptDisable'] = this.filterRelationShip(base, '-').map(function (i) { return i.featureCode; });
             // 返回 选配 + 不可选
             return __spread(this.filterRelationShip(base, 'O'), this.filterRelationShip(base, '-'));
         };
@@ -17466,9 +17466,9 @@
             this.effectRule = filterRule(this.selectModel);
             // 后加的狗屎规则不知道对哦i不
             // 选配字段
-            ['BAC', 'ITR', 'WWA', 'CRT'].forEach(function (faimlyCode) {
-                var base = _this.getBasefeatrue(faimlyCode), defaultSelect = _this.filterRelationShip(base, 'S');
-                _this[faimlyCode] = lodash.isEmpty(defaultSelect) ? undefined : defaultSelect[0].featureCode;
+            ['BAC', 'ITR', 'WWA', 'CRT'].forEach(function (familyCode) {
+                var base = _this.getBasefeatrue(familyCode), defaultSelect = _this.filterRelationShip(base, 'S');
+                _this[familyCode] = lodash.isEmpty(defaultSelect) ? undefined : defaultSelect[0].featureCode;
             });
             // pkg 选配字段还有特殊规则，S标配默认选中且不能取消选择
             var pkgStandard = this.filterRelationShip(this.getBasefeatrue('PKG'), 'S');

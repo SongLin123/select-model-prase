@@ -47,7 +47,7 @@ export default function (model: { [k: string]: any }) {
 
 
   let rules = model.constraintRuleList,
-    ves = model.veFaimlyList
+    ves = model.veFamilyList
   let tar = []
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i].constraintRuleCode

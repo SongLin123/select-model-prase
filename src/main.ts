@@ -24,7 +24,7 @@ export default class SelectModelPrase {
 
         this.models = json.map((m: obj) => {
 
-            this.featrueG.set(m, putInGroup(m.veFaimlyList))
+            this.featrueG.set(m, putInGroup(m.veFamilyList))
             return m
         })
     }
@@ -33,9 +33,9 @@ export default class SelectModelPrase {
         return base.filter(i => i.relationShip === relationShipSym)
     }
     // 获取相关特征组
-    private getBasefeatrue(faimlyCode?: string) {
-        if (faimlyCode) {
-            let k = [...this.featrueG.get(this.selectModel!)!.keys()].find((i) => i.includes(faimlyCode))
+    private getBasefeatrue(familyCode?: string) {
+        if (familyCode) {
+            let k = [...this.featrueG.get(this.selectModel!)!.keys()].find((i) => i.includes(familyCode))
             return this.featrueG.get(this.selectModel!)!.get(k!) || []
         }
         else {
@@ -45,12 +45,12 @@ export default class SelectModelPrase {
         }
     }
     // 获取相关特征组,过滤选配信息
-    private getfeatrue(faimlyCode?: string): never[] | any[] {
+    private getfeatrue(familyCode?: string): never[] | any[] {
         if (!this.selectModel) return []
 
-        let base = this.getBasefeatrue(faimlyCode)
+        let base = this.getBasefeatrue(familyCode)
 
-        this[faimlyCode + 'OptDisable'] = this.filterRelationShip(base, '-').map(i => i.featureCode)
+        this[familyCode + 'OptDisable'] = this.filterRelationShip(base, '-').map(i => i.featureCode)
         // 返回 选配 + 不可选
         return [...this.filterRelationShip(base, 'O'), ...this.filterRelationShip(base, '-')]
     }
@@ -79,10 +79,10 @@ export default class SelectModelPrase {
 
         // 后加的狗屎规则不知道对哦i不
         // 选配字段
-        ['BAC', 'ITR', 'WWA', 'CRT'].forEach((faimlyCode: string) => {
-            let base = this.getBasefeatrue(faimlyCode),
+        ['BAC', 'ITR', 'WWA', 'CRT'].forEach((familyCode: string) => {
+            let base = this.getBasefeatrue(familyCode),
                 defaultSelect = this.filterRelationShip(base, 'S');
-            this[faimlyCode] = isEmpty(defaultSelect) ? undefined : defaultSelect[0].featureCode
+            this[familyCode] = isEmpty(defaultSelect) ? undefined : defaultSelect[0].featureCode
         });
         // pkg 选配字段还有特殊规则，S标配默认选中且不能取消选择
 
