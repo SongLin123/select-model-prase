@@ -17458,6 +17458,10 @@
             if (this.selectModel)
                 this.cleanDisable();
             this.selectModel = this.models.find(function (i) { return i.carTypeId === carTypeId; });
+            if (!this.selectModel) {
+                this.cleanALL();
+                return;
+            }
             // 当前车型的特征约束、特征
             this.effectRule = filterRule(this.selectModel);
             // 后加的狗屎规则不知道对哦i不
@@ -17470,6 +17474,14 @@
             var pkgStandard = this.filterRelationShip(this.getBasefeatrue('PKG'), 'S');
             this['PKG' + 'OptDisable'] = this['PKG'] = pkgStandard.map(function (i) { return i.featureCode; });
             return lodash.cloneDeep(this.selectModel);
+        };
+        SelectModelPrase.prototype.cleanALL = function () {
+            this.BAC = undefined;
+            this.ITR = undefined;
+            this.WWA = undefined;
+            this.CRT = undefined;
+            this.PKG = [];
+            this.cleanDisable();
         };
         __decorate([
             setable
