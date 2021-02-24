@@ -17439,7 +17439,7 @@
             if (!this.selectModel)
                 return [];
             var base = this.getBasefeatrue(faimlyCode);
-            this[faimlyCode + 'OptDisable'] = this.filterRelationShip(base, '-');
+            this[faimlyCode + 'OptDisable'] = this.filterRelationShip(base, '-').map(function (i) { return i.featureCode; });
             // 返回 选配 + 不可选
             return __spread(this.filterRelationShip(base, 'O'), this.filterRelationShip(base, '-'));
         };

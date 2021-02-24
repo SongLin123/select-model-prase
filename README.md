@@ -1,13 +1,14 @@
 <!--
  * @LastEditors  : BillySong
 -->
-# select-model-prase
+# select-model-prase （车型选配逻辑解析）
 
-## Installation
+解析车型json和约束规则，生成一个包含5种选择框的选项、选中值、不可选项的实例对象
+# Installation
 
 1. 复制包到工程目录内
 2. 引入工程
-### npm
+## npm
 ``` js
 // package.json 中 dependencies 字段添加 "select-model-prase": "file:select-model-prase",
 
@@ -26,7 +27,7 @@ npm i
 ``` js
 import SelectModelPrase from "select-model-prase";
 ```
-### cdn
+## cdn
 ``` html
 <script src="./select-model-prase/dist/bundle.js"></script>
 <script>
@@ -34,7 +35,7 @@ let p = new SelectModelPrase(json)
 
 </script>
 ```
-## Quick start
+# Quick start
 
 ``` js
 let p = new SelectModelPrase(json)
@@ -48,9 +49,9 @@ console.log('Opt', p.ITROpt)
 console.log('OptDisable', p.ITROptDisable)
 console.log('OptDisable',p.PKGOptDisable)
 ```
-## API
+# API
 
-### Interfaces
+## Interfaces
 ```typescript
 type featrueCode = string // 特征编码
 
@@ -80,7 +81,7 @@ type featrue = {
   }
 
 ```
-#### 属性
+## 属性
 ```typescript
 interface SelectModelPrase {
     BAC: featrueCode;// 选中的外色
@@ -107,21 +108,36 @@ interface SelectModelPrase {
 }
 ```
 
-#### constructor
+### constructor
 ``` js
 new SelectModelPrase(json) // json 车型列表json
 ```
-#### getModels()
+### getModels()
 ``` js
 function getModels(): model[] 
 ```
 返回可选车型数组
 
-#### setModel()
+### setModel()
 ``` js
 function setModel(carTypeId: string): model
 ```
-设置选中车型,传入车型的 carTypeId 
+设置选中车型,传入车型的 carTypeId
+
+carTypeId 传空字符串或者不存在数组中的值，会清空 属性值、选项、不可选中的选项
+如：
+``` js
+
+p.setModel('')
+
+console.log('BAC',p.BAC) // undefined
+console.log('CRT',p.CRT) // undefined
+console.log('ITR', p.ITR) // undefined
+console.log('Opt', p.ITROpt) // []
+console.log('OptDisable', p.ITROptDisable) // []
+console.log('OptDisable',p.PKGOptDisable) // []
+
+```
 
 
 

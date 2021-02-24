@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/bundle.js",
+  "module": "dist/bundle.es.js",
   "scripts": {
     "build": "rollup -c",
     "test": "rollup -c test.config.js && node dist/test.js"

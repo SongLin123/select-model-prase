@@ -17457,6 +17457,10 @@
             if (this.selectModel)
                 this.cleanDisable();
             this.selectModel = this.models.find(function (i) { return i.carTypeId === carTypeId; });
+            if (!this.selectModel) {
+                this.cleanALL();
+                return;
+            }
             // 当前车型的特征约束、特征
             this.effectRule = filterRule(this.selectModel);
             // 后加的狗屎规则不知道对哦i不
@@ -17469,6 +17473,14 @@
             var pkgStandard = this.filterRelationShip(this.getBasefeatrue('PKG'), 'S');
             this['PKG' + 'OptDisable'] = this['PKG'] = pkgStandard.map(function (i) { return i.featureCode; });
             return lodash.cloneDeep(this.selectModel);
+        };
+        SelectModelPrase.prototype.cleanALL = function () {
+            this.BAC = undefined;
+            this.ITR = undefined;
+            this.WWA = undefined;
+            this.CRT = undefined;
+            this.PKG = [];
+            this.cleanDisable();
         };
         __decorate([
             setable
@@ -21743,11 +21755,12 @@
     // p.setModel('1358388892260876290')//性能版
     // p.setModel('1358388894425137153')//豪华版
     // p.setModel('1358388876922306561')//旗舰版6座
-    p.setModel('1358388885147336705'); //旗舰版4座
+    p.setModel(''); //旗舰版4座
+    p.PKG = [];
     // console.log('BAC',p.BAC)
     // console.log('CRT',p.CRT)
     // console.log('ITR', p.ITR)
-    console.log('Opt', p.ITROpt);
+    console.log('Opt', p.ITR);
     console.log('ITROptDisable', p.ITROptDisable);
     console.log('OptDisable', p.PKGOptDisable);
     // p.setModel('1358388892260876290')

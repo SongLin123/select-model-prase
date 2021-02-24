@@ -9,7 +9,7 @@ import filterRule from "./module/filterRule";
 
 import { cloneDeep, isEmpty } from "lodash";
 
-export default class  SelectModelPrase{
+export default class SelectModelPrase {
     [x: string]: any;
 
 
@@ -20,7 +20,7 @@ export default class  SelectModelPrase{
     private effectRule: string[] = [] // 生效的约束规则
 
 
-    constructor(json: any[] ) {
+    constructor(json: any[]) {
 
         this.models = json.map((m: obj) => {
 
@@ -52,7 +52,7 @@ export default class  SelectModelPrase{
 
         this[faimlyCode + 'OptDisable'] = this.filterRelationShip(base, '-').map(i => i.featureCode)
         // 返回 选配 + 不可选
-        return [...this.filterRelationShip(base, 'O'),...this.filterRelationShip(base, '-')]
+        return [...this.filterRelationShip(base, 'O'), ...this.filterRelationShip(base, '-')]
     }
     private cleanDisable() {
         for (const key in this) {
@@ -62,7 +62,7 @@ export default class  SelectModelPrase{
             }
         }
     }
-    
+
     public getModels() {
         return cloneDeep(this.models)
     }
@@ -70,6 +70,10 @@ export default class  SelectModelPrase{
     public setModel(carTypeId: string) {
         if (this.selectModel) this.cleanDisable()
         this.selectModel = this.models.find((i) => i.carTypeId === carTypeId)
+        if (!this.selectModel) {
+            this.cleanALL()
+            return
+        }
         // 当前车型的特征约束、特征
         this.effectRule = filterRule(this.selectModel!);
 
@@ -88,7 +92,17 @@ export default class  SelectModelPrase{
         return cloneDeep(this.selectModel)
     }
 
+    public cleanALL() {
+        this.BAC = undefined
+        this.ITR = undefined
+        this.WWA = undefined
+        this.CRT = undefined
+        this.PKG = []
 
+        this.cleanDisable()
+
+
+    }
 
     @setable
     public BAC: string | undefined;
